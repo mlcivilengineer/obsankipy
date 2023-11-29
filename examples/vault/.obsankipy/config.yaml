@@ -1,0 +1,26 @@
+#hashes_cache_dir: ./examples/vault/.obsankipy
+vault:
+  dir_path: ./examples/vault
+  medias_dir_path: ./examples/vault/Medias
+  exclude_dotted_dirs_from_scan: true # excludes directories that start with a dot
+  exclude_dirs_from_scan:
+    - Templater
+  file_patterns_to_exclude:
+    - ".*" # excludes files that start with a dot
+regex:
+  basic:
+    - '(?<=#spaced)\s*\n([\s\S]*?)\n([\s\S]*?(?=\+\+\+|---|<!--|$(?![\r\n])))'
+    - '^Q: ((?:.+\n)*)\n*A: ([\s\S]*?(?=\+\+\+|---|<!--ID: ))'
+  basic_reversed:
+    - '(?<=#reversed)\s*\n([\s\S]*?)\n([\s\S]*?(?=\+\+\+|---|<!--|$(?![\r\n])))'
+  type_answer:
+    - '(?<=#type)\s*\n([\s\S]*?)\n([\s\S]*?(?=\+\+\+|---|<!--|$(?![\r\n])))'
+  cloze:
+    - '((?!.*{{c\d+::[^}]*}[^}]).*{{c\d+::[^}]*}}.*\n)'
+
+globals:
+  anki:
+    deck_name: Default
+    tags:
+      - Obsidian
+    url: http://localhost:8765
