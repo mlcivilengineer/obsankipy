@@ -87,7 +87,7 @@ class File:
         this method will read the file content and store it in self.curr_file_content
         """
         logger.debug(f"reading file {self.path}")
-        with open(self.path, "r") as f:
+        with open(self.path, "r", encoding="utf-8") as f:
             self.original_file_content = f.read()
         self.curr_file_content = self.original_file_content
 
