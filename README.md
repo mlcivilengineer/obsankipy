@@ -187,7 +187,7 @@ Some useful things that you can't do with obsidian_to_anki but is supported by o
 - prevent running the scan on specific files that follow some pattern, for example, if you have a file that you don't want to be scanned, you can just add a [unix pattern](https://docs.python.org/3/library/fnmatch.html) to the config file and the program will ignore it.
 - prevent running the scan against directories that start with a dot
 - prevent running the scan against directories that you specify in the config file
-- run the scan and add notes to a remote anki instance, so you don't need to have anki running locally in the same computer. Just specify the URL of the remote anki instance in the config file. (good for automation on rasperry pi or other computers)
+- run the scan and add notes to a remote anki instance, so you don't need to have anki running locally in the same computer. Just specify the URL of the remote anki instance in the config file. (good for automation on rasperry pi or other computers, make sure to look at my other project [anki-desktop-docker](https://github.com/mlcivilengineer/anki-desktop-docker) which lets you run anki on a docker container)
 
 The program can also run in --debug mode by passing this argument through the cli like this:
 ```bash
