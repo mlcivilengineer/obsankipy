@@ -17,6 +17,7 @@ class AnkiConfig(BaseModel):
     url: str
     deck_name: Optional[str] = "Default"
     tags: Optional[List[str]] = []
+    fine_grained_image_search: Optional[bool] = False
 
 
 class VaultConfig(BaseModel):

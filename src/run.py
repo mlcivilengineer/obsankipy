@@ -22,9 +22,9 @@ def run(config: NewConfig):
     anki_requester = AnkiManager(config.globals.anki.url)
 
     ids = anki_requester.get_ids()
-    medias_in_anki = anki_requester.get_medias()
-    pics_in_anki = medias_in_anki.get("images", {})
-    audios_in_anki = medias_in_anki.get("audios", {})
+    medias_in_anki = anki_requester.get_medias(config.globals.anki.fine_grained_image_search)
+    pics_in_anki = medias_in_anki["images"]
+    audios_in_anki = medias_in_anki["audios"]
 
     vault = VaultManager(
         config.vault.dir_path,
@@ -71,9 +71,12 @@ def run(config: NewConfig):
     # TODO need to error handle when we try to add a duplicate note
     # TODO create the cli using click
     # TODO create the tests
-    # TODO annotate python type annotations
-    # TODO maybe use pydantic
+    # TODO better annotate python type annotations, like Any
     # TODO do logging
     # TODO what if someone deletes the ids in the obsidian note? we should be able to retrieve it back by using the findCards api, searching for the front field like this: *question*
     # TODO handle when the image referenced in the obsidian note is not in the same "case" as the file in the filesystem
     # TODO inline ids so we support lists as notes
+    # TODO handle the delete path better..we might delete the structure of the note, which will stop being parsed and still want to delete it..
+    # The request to delete notes is coupled with the Note object, and we should decouple it. The contents of the file will also be out of date after we delete a note it
+    # and we need to update the contents to account for that
+    # categorize medias maybe should get one whole type instead of 2, one for images and one for audios

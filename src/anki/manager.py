@@ -1,7 +1,7 @@
 import json
 import logging
 from collections import defaultdict
-from typing import Dict, List, Set, Tuple, Any, Optional
+from typing import Dict, List, Set, Tuple, Any, Optional, Union
 
 import requests
 
@@ -54,21 +54,31 @@ class AnkiManager:
         logger.debug(f"found the following ids in anki: {response}")
         return response
 
-    def get_medias(self) -> Dict[str, str]:
+    def get_medias(self, fine_grained_search=False) -> Union[Dict[str, Dict[str, str]], Dict[str, Dict[str, Set[str]]]]:
         """get a dictionary of the media files and their data stored in anki"""
         logger.info("getting all the media files stored in anki")
         media_file_names = self._invoke_request(AnkiGetMediaFilesNamesRequest())
-        media_file_multi_request = _create_multi_request(
-            media_file_names, AnkiRetrieveMediaFileRequest
-        )
-        result = self._invoke_request(media_file_multi_request)
-        result_dict = defaultdict(dict)
-        for filename, data in zip(media_file_names, result):
-            if filename.endswith(tuple(SUPPORTED_IMAGE_EXTS)):
-                result_dict["images"][filename] = data
-            elif filename.endswith(tuple(SUPPORTED_AUDIO_EXTS)):
-                result_dict["audios"][filename] = data
-        return result_dict
+        if fine_grained_search:
+            media_file_multi_request = _create_multi_request(
+                media_file_names, AnkiRetrieveMediaFileRequest
+            )
+            result = self._invoke_request(media_file_multi_request)
+            result_dict = defaultdict(dict)
+            for filename, data in zip(media_file_names, result):
+                if filename.endswith(tuple(SUPPORTED_IMAGE_EXTS)):
+                    result_dict["images"][filename] = data
+                elif filename.endswith(tuple(SUPPORTED_AUDIO_EXTS)):
+                    result_dict["audios"][filename] = data
+            return result_dict
+        else:
+            result_dict = defaultdict(set)
+            for filename in media_file_names:
+                if filename.endswith(tuple(SUPPORTED_IMAGE_EXTS)):
+                    result_dict["images"].add(filename)
+                elif filename.endswith(tuple(SUPPORTED_AUDIO_EXTS)):
+                    result_dict["audios"].add(filename)
+            return result_dict
+
 
     def store_media_files(self, pictures: List[Picture]):
         logger.info("storing media files in anki that are not already stored")

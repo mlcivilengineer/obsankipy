@@ -24,3 +24,4 @@ globals:
     tags:
       - Obsidian
     url: http://localhost:8765
+    fine_grained_image_import: false

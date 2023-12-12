@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import List, Set, Dict, Tuple, Any
+from typing import List, Set, Dict, Tuple, Any, Union
 
 from files import File
 from media import MediaState, Picture, Audio
@@ -83,22 +83,31 @@ class NotesManager:
         for note in self.notes_to_add:
             note.source_file.append_to_add_notes(note)
 
-    def categorize_medias(
-        self, pictures_in_anki: Dict[str, str], audios_in_anki: Dict[str, str]
-    ) -> None:
+    def categorize_medias(self, pictures_in_anki: Union[Dict[str, str], Set[str]],
+                              audios_in_anki: Union[Dict[str, str], Set[str]]) -> None:
         """
         analyzes the name of the medias as well as the content of the picture to determine if it is new or not
         """
-        medias_in_anki = {**pictures_in_anki, **audios_in_anki}
-        for media in self.medias:
-            if (
-                media.filename in medias_in_anki
-                and media.data == medias_in_anki[media.filename]
-            ):
-                media.set_state(MediaState.STORED)
-            else:
-                media.set_state(MediaState.NEW)
-                self.new_medias.append(media)
+        # if pictures_in_anki and audios_in_anki are a set, it means that the user has chosen to not compare the content of the media
+        if isinstance(pictures_in_anki, set) and isinstance(audios_in_anki, set):
+            medias_in_anki = pictures_in_anki.union(audios_in_anki)
+            for media in self.medias:
+                if media.filename in medias_in_anki:
+                    media.set_state(MediaState.STORED)
+                else:
+                    media.set_state(MediaState.NEW)
+                    self.new_medias.append(media)
+        else:
+            medias_in_anki = {**pictures_in_anki, **audios_in_anki}
+            for media in self.medias:
+                if (
+                    media.filename in medias_in_anki
+                    and media.data == medias_in_anki[media.filename]
+                ):
+                    media.set_state(MediaState.STORED)
+                else:
+                    media.set_state(MediaState.NEW)
+                    self.new_medias.append(media)
 
     def load_media_data(self, path_to_directory: Path) -> None:
         """ """
