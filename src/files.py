@@ -117,12 +117,22 @@ class File:
                 return self.frontmatter[variant]
         return "Default"
 
-    def scan_file(self, note_types: List["NoteType"]) -> List["Note"]:
+    def anki_property_in_file(self) -> bool:
+        """
+        this method will return True if the file has the:
+        Anki: true
+        property in the frontmatter
+        """
+        return bool(re.findall(r"Anki\s*:\s*true", self.curr_file_content))
+
+    def scan_file(self, note_types: List["NoteType"], anki_bool_required: bool = True) -> List["Note"]:
         """
         this method will scan the file content for notes
         """
 
         for note_type in note_types:
+            if anki_bool_required and not self.anki_property_in_file():
+                break
             for regex in note_type.regexes:
                 full_regex = regex + ID_REGEX_PATTERN
                 regex = re.compile(full_regex, re.MULTILINE)
