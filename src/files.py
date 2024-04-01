@@ -26,7 +26,7 @@ class IDFileLocation:
         self.id = id_number
 
     def get_id_string(self):
-        return f"<!--ID: {self.id}-->\n"
+        return f"\n<!--ID: {self.id}-->\n"
 
 
 class FileNoteMetadata:
