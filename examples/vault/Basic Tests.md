@@ -1,14 +1,12 @@
 ---
 aliases:
   - Basic Tests Alias
-target deck: Basic Tests 01
+target deck: Basic
 tags:
   - tag1
   - tag2
   - tag3
 ---
-**This is a test for basic functionalities only!**
-
 
 #spaced
 This is the first question in the basic type
@@ -20,15 +18,16 @@ This is an image in wikilink format:
 ![[Pasted image 20231128155205.png]]
 
 
- This is a cloze {{c1::test}}
+<!--ID: 1715760845132-->
 <!--ID: None-->
++++
 
 
 #reversed
 this is a reversed card question
 and this is the reversed card answer
 
-<!--ID: None-->
+<!--ID: 1715760845144-->
 <!--ID: None-->
 +++
 
@@ -36,6 +35,7 @@ and this is the reversed card answer
 this is a type the answer question
 answer
 
+<!--ID: 1715760845147-->
 <!--ID: None-->
 +++
 
@@ -43,5 +43,14 @@ answer
 this is a test with plus
 answer
 
+<!--ID: 1715760845141-->
 <!--ID: None-->
++++
+
+#spaced 
+Another new question 01
+Answer 01
+Added line 01
+
+<!--ID: 1715761138986-->
 +++
