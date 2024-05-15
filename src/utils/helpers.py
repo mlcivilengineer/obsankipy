@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 def overwrite_file_safely(file_path, contents):
     # Create a temporary file
-    with tempfile.NamedTemporaryFile(mode="w", delete=False) as temp_file:
+    with tempfile.NamedTemporaryFile(mode="w", delete=False, encoding='utf-8') as temp_file:
         temp_path = temp_file.name
         # Write contents to the temporary file
         temp_file.write(contents)
