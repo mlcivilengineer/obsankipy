@@ -14,6 +14,7 @@ from pydantic import BaseModel, field_validator, ValidationInfo, Field
 
 
 class AnkiConfig(BaseModel):
+    show_vault_link: Optional[bool] = False
     url: str
     deck_name: Optional[str] = "Default"
     tags: Optional[List[str]] = []
