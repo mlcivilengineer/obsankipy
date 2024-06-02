@@ -145,6 +145,7 @@ class AnkiManager:
 
     def create_decks(self, decks: List[str]) -> Any:
         logger.info("creating decks in anki")
+        logger.debug(f"decks: {decks}")
         if not decks:
             return
         requests = [AnkiCreateDeckRequest(deck) for deck in decks]
