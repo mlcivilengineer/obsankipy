@@ -122,7 +122,7 @@ class AnkiManager:
             add_response = add_response_no_duplicates
         return add_response
 
-    def updates_existing_notes(self, notes: List[Note]) -> Any:
+    def updates_existing_notes(self, notes: List[Note]) -> None:
         logger.info("updating existing notes in anki")
         if not notes:
             return
