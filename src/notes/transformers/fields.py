@@ -40,8 +40,8 @@ def to_anki_math_transformer(text: str) -> str:
     inline math is wrapped in $ and display math is wrapped in $$
     we need to change the wrapping to anki wrapping which becomes [$$]...[/$$] and [$]...[/$]
     """
-    text = re.sub(OBS_INLINE_MATH_REGEX, r"[$]\1[/$]", text)
-    text = re.sub(OBS_DISPLAY_MATH_REGEX, r"[$$]\1[/$$]", text)
+    text = re.sub(OBS_INLINE_MATH_REGEX, r"\\\(\1\\\\)", text)
+    text = re.sub(OBS_DISPLAY_MATH_REGEX, r"\\\[\1\\\]", text)
     return text
 
 
