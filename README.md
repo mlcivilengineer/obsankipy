@@ -13,7 +13,6 @@ This is still a work in progress, so expect bugs and missing features. Hope you 
 - AnkiConnect
 
 ### optional requirements
-- Latex (for math formulas)
 - css applied in anki if you want syntax highlighting in code blocks. The css needed is in the examples folder.
 - pipx (for development)
 - poetry (for development)
