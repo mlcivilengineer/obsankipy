@@ -30,7 +30,7 @@ class AnkiManager:
     This class will handle all the requests to anki
     """
 
-    def __init__(self, url) -> None:
+    def __init__(self, url: str) -> None:
         self.url = url
 
     def _invoke_request(self, request: T) -> Any:
@@ -80,7 +80,7 @@ class AnkiManager:
             return result_dict
 
 
-    def store_media_files(self, pictures: List[Picture]):
+    def store_media_files(self, pictures: List[Picture]) -> None:
         logger.info("storing media files in anki that are not already stored")
         if not pictures:
             return
@@ -88,7 +88,6 @@ class AnkiManager:
         multi_request = AnkiMultiRequest(requests)
         response = self._invoke_request(multi_request)
         logger.debug(f"stored the following media files in anki: {response}")
-        return response
 
     def adds_new_notes(self, notes: List[Note]) -> Optional[List[Tuple[Note, int]]]:
         """
@@ -130,23 +129,23 @@ class AnkiManager:
         multi_request = _create_multi_request(notes, AnkiUpdateNoteRequest)
         response = self._invoke_request(multi_request)
 
-    def ensure_correct_deck(self, notes: List[Note]) -> Any:
+    def ensure_correct_deck(self, notes: List[Note]) -> None:
         logger.info("ensuring correct deck for notes in anki")
         if not notes:
             return
         multi_request = _create_multi_request(notes, AnkiChangeDeckRequest)
-        response = self._invoke_request(multi_request)
+        self._invoke_request(multi_request)
 
-    def delete_notes(self, notes: List[Note]) -> Any:
+    def delete_notes(self, notes: List[Note]) -> None:
         logger.info("deleting notes in anki")
         if not notes:
             return
-        response = self._invoke_request(AnkiDeleteNotesRequest(notes))
+        self._invoke_request(AnkiDeleteNotesRequest(notes))
 
-    def create_decks(self, decks: List[str]) -> Any:
+    def create_decks(self, decks: List[str]) -> None:
         logger.info("creating decks in anki")
         if not decks:
             return
         requests = [AnkiCreateDeckRequest(deck) for deck in decks]
         multi_request = AnkiMultiRequest(requests)
-        response = self._invoke_request(multi_request)
+        self._invoke_request(multi_request)
