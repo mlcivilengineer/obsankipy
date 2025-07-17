@@ -1,3 +1,23 @@
+#!/usr/bin/env -S uv run --script
+#
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [
+#    "annotated-types==0.6.0",
+#    "certifi==2023.11.17",
+#    "charset-normalizer==3.3.2",
+#    "idna==3.6",
+#    "markdown==3.5.1",
+#    "pydantic==2.5.2",
+#    "pydantic-core==2.14.5",
+#    "pygments==2.17.2",
+#    "python-frontmatter==1.0.1",
+#    "pyyaml==6.0.1",
+#    "requests==2.31.0",
+#    "typing-extensions==4.8.0",
+#    "urllib3==2.1.0",
+# ]
+# ///
 """Script for adding cards to Anki from Obsidian."""
 
 import logging
@@ -22,8 +42,8 @@ def main():
             config = yaml.safe_load(f)
         new_config = NewConfig(**config)
     except Exception as err:
-        logger.error(f"Error parsing config file: {err}")
-        raise Exception(f"Error parsing config file: {err}") from err
+        logger.exception(f"Error parsing config file")
+        raise
 
     run(new_config)
 
