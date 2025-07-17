@@ -9,12 +9,12 @@
 #    "idna==3.6",
 #    "markdown==3.5.1",
 #    "pydantic==2.11.7",
-#    "pydantic-core v2.33.2",
+#    "pydantic-core==2.33.2",
 #    "pygments==2.17.2",
 #    "python-frontmatter==1.0.1",
 #    "pyyaml==6.0.1",
 #    "requests==2.31.0",
-#    "typing-extensions v4.14.1",
+#    "typing-extensions==4.14.1",
 #    "urllib3==2.1.0",
 # ]
 # ///
