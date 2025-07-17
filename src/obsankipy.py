@@ -8,13 +8,13 @@
 #    "charset-normalizer==3.3.2",
 #    "idna==3.6",
 #    "markdown==3.5.1",
-#    "pydantic==2.5.2",
-#    "pydantic-core==2.14.5",
+#    "pydantic==2.11.7",
+#    "pydantic-core==2.33.2",
 #    "pygments==2.17.2",
 #    "python-frontmatter==1.0.1",
 #    "pyyaml==6.0.1",
 #    "requests==2.31.0",
-#    "typing-extensions==4.8.0",
+#    "typing-extensions==4.14.1",
 #    "urllib3==2.1.0",
 # ]
 # ///
