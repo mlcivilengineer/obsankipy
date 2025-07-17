@@ -13,7 +13,7 @@ Obsankipy synchronizes Markdown notes from an Obsidian vault into Anki by using 
 
 ## Requirements
 
-- Python 3.12 or higher
+- [uv](https://docs.astral.sh/uv/getting-started/installation/)
 - [AnkiConnect](https://foosoft.net/projects/anki-connect/)
 
 Optional tools:
