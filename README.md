@@ -25,9 +25,17 @@ Optional tools:
 
 1. Clone this repository.
 2. Install `uv`:
+
+Linux / Mac:
    ```bash
-   pip install uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
    ```
+
+Windows:
+   ```bash
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+   ```
+
 3. Run the script with your configuration file:
    ```bash
    uv run src/obsankipy.py path/to/config.yaml
