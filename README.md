@@ -73,7 +73,7 @@ globals:
 
 See `examples/vault/.obsankipy/config.yaml` for a full example with additional options.
 
-## Supported note types
+## Supported default note types
 
 ### Basic
 ```markdown
