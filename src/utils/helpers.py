@@ -122,7 +122,7 @@ def erase_note_id_in_the_file(file_path: Path):
 
 def file_encode(filepath):
     """Encode the file as base 64."""
-    with open(filepath, "rb", encoding="utf-8") as f:
+    with open(filepath, "rb") as f:
         return base64.b64encode(f.read()).decode("utf-8")
 
 
