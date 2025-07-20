@@ -38,12 +38,13 @@ Obsankipy is a Python tool that synchronizes Markdown notes from an Obsidian vau
 ## Requirements
 
 ### Essential
-- **Python**: 3.12 or higher
+- **Anki**: Running in the background
 - **[uv](https://docs.astral.sh/uv/getting-started/installation/)**: Modern Python package manager
 - **[AnkiConnect](https://foosoft.net/projects/anki-connect/)**: Anki plugin for API access
+- **Python**: 3.12 or higher (Installed automatically by uv)
 
 ### Optional
-- **CSS for syntax highlighting**: See `examples/styles.css` for code block styling
+- **CSS for syntax highlighting**: If you want your codeblocks to have syntax highlighting. See `examples/styles.css`.
 - **Remote Anki setup**: For automation scenarios (see [anki-desktop-docker](https://github.com/mlcivilengineer/anki-desktop-docker))
 
 ## Installation
@@ -75,7 +76,7 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 ## Quick Start
 
 ### Try the Example
-With Anki open, run the code against the sample vault using:
+With Anki open in the background, run the following in a Linux / MacOS Terminal or Windows Powershell:
 
 ```bash
 uv run src/obsankipy.py examples/vault/.obsankipy/config.yaml
