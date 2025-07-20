@@ -58,6 +58,9 @@ def run(config: NewConfig):
     # Process files
     vault.set_new_files(hashes)
     logger.info(f"Found {len(vault.new_files)} new or modified files to process")
+    if not vault.new_files:
+        logger.info(f"Nothing has changed since last run")
+        return
 
     # Extract and categorize notes
     logger.info("Extracting notes from files...")
