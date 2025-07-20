@@ -3,7 +3,7 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 
-Obsankipy is a Python tool that synchronizes Markdown notes from an Obsidian vault into Anki flashcards using the AnkiConnect API. It was inspired by the [Obsidian_to_Anki](https://github.com/ObsidianToAnki/Obsidian_to_Anki) plugin but is implemented entirely in Python, allowing it to run independently without the Obsidian application.
+Obsankipy is a Python tool that synchronizes Markdown notes from an Obsidian vault into Anki flashcards using the AnkiConnect API. It was inspired by the [Obsidian_to_Anki](https://github.com/ObsidianToAnki/Obsidian_to_Anki) plugin but is implemented entirely in Python, allowing it to run independently without the Obsidian application, thus enabling better automation.
 
 ## Table of Contents
 
