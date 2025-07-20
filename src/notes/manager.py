@@ -58,16 +58,26 @@ class NotesManager:
             mutates the notes state to either NEW, EXISTING or DELETED
             call create_source_files_add_notes_metadata to mutate the source files
         """
+        logger.info(f"Categorizing {len(self.notes)} notes against {len(existent_ids)} existing Anki notes...")
+        
+        new_count = 0
+        existing_count = 0
+        delete_count = 0
+        
         for note in self.notes:
             if note.state == State.MARKED_FOR_DELETION:
                 self.parse_note_to_delete(note)
+                delete_count += 1
             elif note.state == State.UNKNOWN and note.id in existent_ids:
                 note.set_state(State.EXISTING)
                 self.parse_note_to_edit(note)
+                existing_count += 1
             else:  # note is new
                 note.set_state(State.NEW)
                 self.parse_note_to_add(note)
+                new_count += 1
 
+        logger.info(f"Note categorization complete: {new_count} new, {existing_count} existing, {delete_count} to delete")
         self.create_source_files_add_notes_metadata()
 
     def get_needed_target_decks(self):

@@ -35,14 +35,26 @@ class VaultManager:
     ):
         self.dir = vault_path
         self.vault_name = os.path.basename(self.dir)
-        logger.info(f"Vault name: {self.vault_name}")
+        logger.info(f"Initializing VaultManager for vault: {self.vault_name}")
+        logger.info(f"Vault directory: {self.dir}")
+        
+        # Log exclusion settings
+        if exclude_dirs:
+            logger.info(f"Excluding directories: {exclude_dirs}")
+        if exclude_dotted_dirs:
+            logger.info("Excluding dotted directories (starting with '.')")
+        if patterns_to_exclude:
+            logger.info(f"Excluding file patterns: {patterns_to_exclude}")
+        
         self.file_paths = get_files_paths(
             self.dir,
             exclude_dirs=exclude_dirs,
             exclude_dotted_dirs=exclude_dotted_dirs,
             patterns_to_exclude=patterns_to_exclude,
         )
-        logger.debug(f"Files found: {self.file_paths}")
+        logger.info(f"Found {len(self.file_paths)} files in vault")
+        logger.debug(f"File paths: {[str(p) for p in self.file_paths[:10]]}{'...' if len(self.file_paths) > 10 else ''}")
+        
         self.set_files()
         self.note_types = note_types
 
@@ -58,11 +70,20 @@ class VaultManager:
 
     def get_notes_from_new_files(self) -> NotesManager:
         """Scan all the new files found in vault."""
-
+        logger.info(f"Scanning {len(self.new_files)} new/modified files for notes...")
+        
         notes = []
+        files_with_notes = 0
+        
         for file in self.new_files:
+            logger.debug(f"Scanning file: {file.file_name}")
             curr_notes = file.scan_file(note_types=self.note_types)
+            if curr_notes:
+                files_with_notes += 1
+                logger.debug(f"Found {len(curr_notes)} notes in {file.file_name}")
             notes.extend(curr_notes)
+        
+        logger.info(f"Scan complete: found {len(notes)} total notes in {files_with_notes} files")
         return NotesManager(notes)
 
     def get_curr_file_hashes(self):
