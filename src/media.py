@@ -15,13 +15,14 @@ class MediaState(enum.Enum):
 
 
 class Picture:
-    data: str
+    data: str | None
     filename: str
     state: MediaState
 
     def __init__(self, filename):
         self.filename = filename
         self.state = MediaState.UNKNOWN
+        self.data = None
 
     def to_anki_dict(self):
         return {"filename": self.filename, "data": self.data}
