@@ -166,6 +166,8 @@ Define patterns for different note types. Each pattern must capture:
 
 ## Supported Note Types
 
+All the basic anki note types are supported. You can customize how all the note types will be captured. The default way that they will be captured is the following:
+
 ### Basic Cards
 ```markdown
 #spaced
