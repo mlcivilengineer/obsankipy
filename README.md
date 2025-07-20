@@ -281,7 +281,6 @@ def fibonacci(n):
         return n
     return fibonacci(n-1) + fibonacci(n-2)
 ```
-```
 
 ### Remote Anki Setup
 
