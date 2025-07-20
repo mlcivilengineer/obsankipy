@@ -15,7 +15,6 @@ Obsankipy is a Python tool that synchronizes Markdown notes from an Obsidian vau
 - [Supported Note Types](#supported-note-types)
 - [Advanced Usage](#advanced-usage)
 - [Examples](#examples)
-- [Troubleshooting](#troubleshooting)
 - [Contributing](#contributing)
 - [License](#license)
 
