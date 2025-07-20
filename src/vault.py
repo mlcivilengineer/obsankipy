@@ -35,8 +35,8 @@ class VaultManager:
     ):
         self.dir = vault_path
         self.vault_name = os.path.basename(self.dir)
-        logger.info(f"Initializing VaultManager for vault: {self.vault_name}")
-        logger.info(f"Vault directory: {self.dir}")
+        logger.debug(f"Initializing VaultManager for vault: {self.vault_name}")
+        logger.debug(f"Vault directory: {self.dir}")
         
         # Log exclusion settings
         if exclude_dirs:
@@ -83,7 +83,7 @@ class VaultManager:
                 logger.debug(f"Found {len(curr_notes)} notes in {file.file_name}")
             notes.extend(curr_notes)
         
-        logger.info(f"Scan complete: found {len(notes)} total notes in {files_with_notes} files")
+        logger.debug(f"Scan complete: found {len(notes)} total notes in {files_with_notes} files")
         return NotesManager(notes)
 
     def get_curr_file_hashes(self):

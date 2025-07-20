@@ -32,7 +32,7 @@ class AnkiManager:
 
     def __init__(self, url: str) -> None:
         self.url = url
-        logger.info(f"Initializing AnkiManager with URL: {url}")
+        logger.debug(f"Initializing AnkiManager with URL: {url}")
 
     def _invoke_request(self, request: T) -> Any:
         """Do the action with the specified parameters."""
@@ -48,7 +48,7 @@ class AnkiManager:
 
     def get_ids(self) -> Set[int]:
         """Get a set of the currently used card IDs."""
-        logger.info("Get a set of the currently used card IDs.")
+        logger.debug("Get a set of the currently used card IDs.")
         requestJson = AnkiFindNotesRequest()
         response = self._invoke_request(requestJson)
         response = set(response)
@@ -57,7 +57,6 @@ class AnkiManager:
 
     def get_medias(self, fine_grained_search=False) -> Union[Dict[str, Dict[str, str]], Dict[str, Dict[str, Set[str]]]]:
         """get a dictionary of the media files and their data stored in anki"""
-        logger.info("getting all the media files stored in anki")
         media_file_names = self._invoke_request(AnkiGetMediaFilesNamesRequest())
         if fine_grained_search:
             media_file_multi_request = _create_multi_request(

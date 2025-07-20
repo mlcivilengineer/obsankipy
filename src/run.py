@@ -25,10 +25,10 @@ def run(config: NewConfig):
     hashes_path = config.hashes_cache_dir / f".{vault_name}_file_hashes.json"
     logger.debug(f"Cache file path: {hashes_path}")
     hashes = open_cache(hashes_path)
-    logger.info(f"Loaded {len(hashes)} file hashes from cache")
+    logger.debug(f"Loaded {len(hashes)} file hashes from cache")
     
     note_types: List[NoteType] = config.get_note_types()
-    logger.info(f"Configured note types: {[nt.name for nt in note_types]}")
+    logger.debug(f"Configured note types: {[nt.name for nt in note_types]}")
     
     # Connect to Anki
     logger.info("Connecting to Anki...")
@@ -88,9 +88,8 @@ def run(config: NewConfig):
     logger.info(f"  Notes to edit: {len(notes_to_edit)}")
     logger.info(f"  Notes to delete: {len(notes_to_delete)}")
     logger.info(f"  Media files to add: {len(medias)}")
-    logger.info(f"  Making sure that the following decks exist: {len(decks_to_create)}")
     if decks_to_create:
-        logger.info(f"  New decks: {list(decks_to_create)}")
+        logger.info(f"  Making sure that these Decks exist: {list(decks_to_create)}")
     logger.info("=" * 50)
     
     # Execute operations
@@ -141,8 +140,6 @@ def run(config: NewConfig):
     write_hashes_to_file(curr_hashes, hashes_path)
     logger.info(f"Updated cache with {len(curr_hashes)} file hashes")
     
-    logger.info("Synchronization process completed successfully!")
-
     # TODO need to change the Vault manager to manage IO operations with the files inside the vault
     # TODO need to error handle when we try to add a duplicate note
     # TODO create the cli using click
