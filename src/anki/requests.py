@@ -64,9 +64,6 @@ class AnkiAddNotesRequest:
     }
     becareful when setting the target deck, because if it does not exist, the adding procedure will fail because of ankiconnect.
     """
-
-    notes: List[Note]
-
     def __init__(self, notes: List[Note]):
         self.action = "addNotes"
         self.version = 6
@@ -104,9 +101,6 @@ class AnkiMultiRequest:
         }
     }
     """
-
-    notes: List[Any]
-
     def __init__(self, requests: List[Any]):
         self.action = "multi"
         self.version = 6

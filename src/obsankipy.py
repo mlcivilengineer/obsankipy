@@ -41,7 +41,7 @@ def main():
         with open(Path(args.config_path), "r") as f:
             config = yaml.safe_load(f)
         new_config = NewConfig(**config)
-    except Exception as err:
+    except Exception:
         logger.exception(f"Error parsing config file")
         raise
 
