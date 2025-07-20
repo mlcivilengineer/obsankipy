@@ -104,7 +104,7 @@ def erase_note_id_in_the_file(file_path: Path):
     """Erase note IDs from a single file."""
     logger.debug(f"Erasing note IDs from file: {file_path}")
     try:
-        with open(file_path, "r") as f:
+        with open(file_path, "r", encoding="utf-8") as f:
             file_content = f.read()
         
         original_length = len(file_content)
@@ -122,7 +122,7 @@ def erase_note_id_in_the_file(file_path: Path):
 
 def file_encode(filepath):
     """Encode the file as base 64."""
-    with open(filepath, "rb") as f:
+    with open(filepath, "rb", encoding="utf-8") as f:
         return base64.b64encode(f.read()).decode("utf-8")
 
 
@@ -133,7 +133,7 @@ def compute_hash(file_content: bytes) -> str:
 def clear_file_hashes(hashes_cache_dir):
     try:
         logger.info("Clearing file hashes")
-        with open(hashes_cache_dir, "w") as f:
+        with open(hashes_cache_dir, "w", encoding="utf-8") as f:
             f.write("[]")
     except FileNotFoundError:
         return
@@ -143,7 +143,7 @@ def open_cache(hashes_path: Path):
     """Open and load the file hash cache."""
     try:
         logger.debug(f"Opening cache file at {hashes_path}")
-        with open(hashes_path, "r") as f:
+        with open(hashes_path, "r", encoding="utf-8") as f:
             cache = json.loads(f.read())
         logger.debug(f"Loaded {len(cache)} file hashes from cache")
         return cache
@@ -185,7 +185,7 @@ def write_hashes_to_file(curr_hashes, hashes_path: Path):
     """Write current file hashes to cache file."""
     logger.debug(f"Writing {len(curr_hashes)} file hashes to cache at {hashes_path}")
     try:
-        with open(hashes_path, "w") as f:
+        with open(hashes_path, "w", encoding="utf-8") as f:
             f.write(json.dumps(curr_hashes))
         logger.debug("Successfully updated hash cache file")
     except Exception as e:

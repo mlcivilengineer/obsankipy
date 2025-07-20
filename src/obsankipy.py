@@ -45,7 +45,7 @@ def main():
     
     try:
         logger.info("Loading configuration file...")
-        with open(Path(args.config_path), "r") as f:
+        with open(Path(args.config_path), "r", encoding="utf-8") as f:
             config = yaml.safe_load(f)
         logger.info("Configuration loaded successfully")
         
