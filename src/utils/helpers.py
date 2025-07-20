@@ -156,26 +156,33 @@ def write_hashes_to_file(curr_hashes, hashes_path: Path):
     with open(hashes_path, "w") as f:
         f.write(json.dumps(curr_hashes))
 
-
 def setup_root_logger(debug=False):
     root_logger = logging.getLogger("")
-    root_logger.setLevel(logging.DEBUG)
+    root_logger.setLevel(logging.DEBUG)  # Capture all logs, handlers will filter
+
+    # Remove existing handlers to prevent duplication
+    for handler in root_logger.handlers[:]:
+        root_logger.removeHandler(handler)
+
+    # Formatter: structured, add timestamp only in debug
     if debug:
+        formatter = logging.Formatter(
+            "%(asctime)s ::: %(levelname)s ::: %(name)s ::: %(funcName)s ::: %(message)s"
+        )
+    else:
+        formatter = logging.Formatter(
+            "%(message)s"
+        )
+
+    # Console handler: INFO or higher
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.INFO if not debug else logging.DEBUG)
+    console_handler.setFormatter(formatter)
+    root_logger.addHandler(console_handler)
+
+    if debug:
+        # File handler for debug logs
         file_handler = logging.FileHandler(".obsankipy.log")
         file_handler.setLevel(logging.DEBUG)
-        file_formatter = logging.Formatter(
-            "%(asctime)s:::%(levelname)s:::%(funcName)s:::%(message)s"
-        )
-        file_handler.setFormatter(file_formatter)
+        file_handler.setFormatter(formatter)
         root_logger.addHandler(file_handler)
-
-    # Create a console handler and set the formatter
-    console_handler = logging.StreamHandler()
-    console_handler.setLevel(logging.INFO)
-    console_formatter = logging.Formatter("%(asctime)s:::%(levelname)s:::%(message)s")
-    console_handler.setFormatter(console_formatter)
-
-    # Get the root logger
-
-    # Add the handlers to the root logger
-    root_logger.addHandler(console_handler)

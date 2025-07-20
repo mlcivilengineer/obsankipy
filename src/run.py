@@ -88,7 +88,7 @@ def run(config: NewConfig):
     logger.info(f"  Notes to edit: {len(notes_to_edit)}")
     logger.info(f"  Notes to delete: {len(notes_to_delete)}")
     logger.info(f"  Media files to add: {len(medias)}")
-    logger.info(f"  Decks to create: {len(decks_to_create)}")
+    logger.info(f"  Making sure that the following decks exist: {len(decks_to_create)}")
     if decks_to_create:
         logger.info(f"  New decks: {list(decks_to_create)}")
     logger.info("=" * 50)
