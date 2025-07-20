@@ -98,26 +98,44 @@ class NotesManager:
         """
         analyzes the name of the medias as well as the content of the picture to determine if it is new or not
         """
+        logger.info(f"Categorizing {len(self.medias)} media files...")
+        
         # if pictures_in_anki and audios_in_anki are a set, it means that the user has chosen to not compare the content of the media
         if isinstance(pictures_in_anki, set) and isinstance(audios_in_anki, set):
+            logger.info("Using filename-only comparison for media files")
             medias_in_anki = pictures_in_anki.union(audios_in_anki)
+            new_media_count = 0
+            existing_media_count = 0
+            
             for media in self.medias:
                 if media.filename in medias_in_anki:
                     media.set_state(MediaState.STORED)
+                    existing_media_count += 1
                 else:
                     media.set_state(MediaState.NEW)
                     self.new_medias.append(media)
+                    new_media_count += 1
+            
+            logger.info(f"Media categorization complete: {new_media_count} new, {existing_media_count} existing")
         else:
+            logger.info("Using content comparison for media files")
             medias_in_anki = {**pictures_in_anki, **audios_in_anki}
+            new_media_count = 0
+            existing_media_count = 0
+            
             for media in self.medias:
                 if (
                     media.filename in medias_in_anki
                     and media.data == medias_in_anki[media.filename]
                 ):
                     media.set_state(MediaState.STORED)
+                    existing_media_count += 1
                 else:
                     media.set_state(MediaState.NEW)
                     self.new_medias.append(media)
+                    new_media_count += 1
+            
+            logger.info(f"Media categorization complete: {new_media_count} new, {existing_media_count} existing")
 
     def load_media_data(self, path_to_directory: Path) -> None:
         """ """

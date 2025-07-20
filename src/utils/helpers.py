@@ -18,6 +18,9 @@ logger = logging.getLogger(__name__)
 
 
 def overwrite_file_safely(file_path, contents):
+    """Safely overwrite a file using a temporary file to prevent data loss."""
+    logger.debug(f"Safely overwriting file: {file_path}")
+    
     # Create a temporary file
     with tempfile.NamedTemporaryFile(mode="w", delete=False) as temp_file:
         temp_path = temp_file.name
@@ -27,10 +30,11 @@ def overwrite_file_safely(file_path, contents):
     try:
         # Replace the original file with the temporary file
         shutil.move(temp_path, file_path)
-        logger.info(f"File '{file_path}' successfully overwritten.")
+        logger.debug(f"File '{file_path}' successfully overwritten safely")
 
     except Exception as err:
         # If an error occurs, remove the temporary file
+        logger.error(f"Failed to overwrite file '{file_path}': {err}")
         os.remove(temp_path)
         raise Exception(
             f"Error writing to file. Temporary file removed. Original error: {err}"
@@ -86,15 +90,34 @@ def get_files_paths(
 
 def erase_note_ids_in_the_files(file_paths: List[Path]):
     """Erase the note IDs from the files."""
+    if not file_paths:
+        logger.info("No files to erase note IDs from")
+        return
+        
+    logger.info(f"Erasing note IDs from {len(file_paths)} files...")
     for file_path in file_paths:
         erase_note_id_in_the_file(file_path)
+    logger.info("Successfully erased note IDs from all files")
 
 
 def erase_note_id_in_the_file(file_path: Path):
-    with open(file_path, "r") as f:
-        file_content = f.read()
-    file_content = re.sub(ID_DELETE_REGEX, "", file_content)
-    overwrite_file_safely(file_path, file_content)
+    """Erase note IDs from a single file."""
+    logger.debug(f"Erasing note IDs from file: {file_path}")
+    try:
+        with open(file_path, "r") as f:
+            file_content = f.read()
+        
+        original_length = len(file_content)
+        file_content = re.sub(ID_DELETE_REGEX, "", file_content)
+        new_length = len(file_content)
+        
+        if original_length != new_length:
+            logger.debug(f"Removed {original_length - new_length} characters (note IDs) from {file_path}")
+        
+        overwrite_file_safely(file_path, file_content)
+    except Exception as e:
+        logger.error(f"Failed to erase note IDs from {file_path}: {e}")
+        raise
 
 
 def file_encode(filepath):
@@ -117,12 +140,18 @@ def clear_file_hashes(hashes_cache_dir):
 
 
 def open_cache(hashes_path: Path):
+    """Open and load the file hash cache."""
     try:
-        logger.info(f"Opening cache file at {hashes_path}")
+        logger.debug(f"Opening cache file at {hashes_path}")
         with open(hashes_path, "r") as f:
             cache = json.loads(f.read())
+        logger.debug(f"Loaded {len(cache)} file hashes from cache")
         return cache
     except FileNotFoundError:
+        logger.info(f"Cache file not found at {hashes_path}, starting with empty cache")
+        return []
+    except json.JSONDecodeError as e:
+        logger.warning(f"Invalid JSON in cache file {hashes_path}: {e}. Starting with empty cache")
         return []
 
 
@@ -153,8 +182,15 @@ def setup_cli_parser():
 
 
 def write_hashes_to_file(curr_hashes, hashes_path: Path):
-    with open(hashes_path, "w") as f:
-        f.write(json.dumps(curr_hashes))
+    """Write current file hashes to cache file."""
+    logger.debug(f"Writing {len(curr_hashes)} file hashes to cache at {hashes_path}")
+    try:
+        with open(hashes_path, "w") as f:
+            f.write(json.dumps(curr_hashes))
+        logger.debug("Successfully updated hash cache file")
+    except Exception as e:
+        logger.error(f"Failed to write hash cache to {hashes_path}: {e}")
+        raise
 
 
 def setup_root_logger(debug=False):
