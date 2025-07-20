@@ -75,7 +75,7 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 ## Quick Start
 
 ### Try the Example
-A sample vault with configuration is provided to test the setup:
+With Anki open, run the code against the sample vault using:
 
 ```bash
 uv run src/obsankipy.py examples/vault/.obsankipy/config.yaml
