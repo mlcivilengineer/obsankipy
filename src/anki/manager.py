@@ -32,6 +32,7 @@ class AnkiManager:
 
     def __init__(self, url: str) -> None:
         self.url = url
+        logger.debug(f"Initializing AnkiManager with URL: {url}")
 
     def _invoke_request(self, request: T) -> Any:
         """Do the action with the specified parameters."""
@@ -47,7 +48,7 @@ class AnkiManager:
 
     def get_ids(self) -> Set[int]:
         """Get a set of the currently used card IDs."""
-        logger.info("Get a set of the currently used card IDs.")
+        logger.debug("Get a set of the currently used card IDs.")
         requestJson = AnkiFindNotesRequest()
         response = self._invoke_request(requestJson)
         response = set(response)
@@ -56,7 +57,6 @@ class AnkiManager:
 
     def get_medias(self, fine_grained_search=False) -> Union[Dict[str, Dict[str, str]], Dict[str, Dict[str, Set[str]]]]:
         """get a dictionary of the media files and their data stored in anki"""
-        logger.info("getting all the media files stored in anki")
         media_file_names = self._invoke_request(AnkiGetMediaFilesNamesRequest())
         if fine_grained_search:
             media_file_multi_request = _create_multi_request(
@@ -94,33 +94,46 @@ class AnkiManager:
         here we don't need to use multi, there is already a route to add multiple notes
         we need to return a list of ids of the notes that were added in the form of IDsFileLocation
         """
-        logger.info("adding new notes to anki")
+        logger.info(f"Adding {len(notes)} new notes to Anki...")
         if not notes:
+            logger.info("No notes to add")
             return
-        adds_new_notes_request = AnkiAddNotesRequest(notes)
-        response = self._invoke_request(adds_new_notes_request)
-        add_response = list(zip(notes, response))
-        add_response_no_duplicates = []
-        if add_response is not None:
-            # remove from add_response if the id is None, because that means it was a duplicate
-            # Anki checks for uniqueness by looking at the front field, which has to be unique
-            for response in add_response:
-                if response[1] is not None:
-                    add_response_no_duplicates.append(response)
-                else:
-                    note = response[0]
-                    front = note.fields[0]
-
-                    logger.warning(
-                        f"""
-                        note with front: {front.get_field_value()} from the file {note.source_file.file_name} was not added 
-                        because the program identified it as a new card, but it may 
-                        be already in anki. Maybe the Note ID in Obsidian is wrong?
-                                                """
-                    )
-        if add_response_no_duplicates:
-            add_response = add_response_no_duplicates
-        return add_response
+        
+        try:
+            adds_new_notes_request = AnkiAddNotesRequest(notes)
+            response = self._invoke_request(adds_new_notes_request)
+            add_response = list(zip(notes, response))
+            add_response_no_duplicates = []
+            duplicates_count = 0
+            
+            if add_response is not None:
+                # remove from add_response if the id is None, because that means it was a duplicate
+                # Anki checks for uniqueness by looking at the front field, which has to be unique
+                for response in add_response:
+                    if response[1] is not None:
+                        add_response_no_duplicates.append(response)
+                    else:
+                        duplicates_count += 1
+                        note = response[0]
+                        front = note.fields[0]
+                        logger.warning(
+                            f"Duplicate note detected - Front: '{front.get_field_value()[:50]}...' "
+                            f"from file '{note.source_file.file_name}' was not added. "
+                            f"Note may already exist in Anki or Note ID in Obsidian may be incorrect."
+                        )
+            
+            if add_response_no_duplicates:
+                add_response = add_response_no_duplicates
+                logger.info(f"Successfully added {len(add_response)} notes to Anki")
+                if duplicates_count > 0:
+                    logger.warning(f"Skipped {duplicates_count} duplicate notes")
+            else:
+                logger.warning("No notes were added - all were duplicates")
+                
+            return add_response
+        except Exception as e:
+            logger.error(f"Failed to add notes to Anki: {e}")
+            raise
 
     def updates_existing_notes(self, notes: List[Note]) -> None:
         logger.info("updating existing notes in anki")

@@ -58,16 +58,26 @@ class NotesManager:
             mutates the notes state to either NEW, EXISTING or DELETED
             call create_source_files_add_notes_metadata to mutate the source files
         """
+        logger.info(f"Categorizing {len(self.notes)} notes against {len(existent_ids)} existing Anki notes...")
+        
+        new_count = 0
+        existing_count = 0
+        delete_count = 0
+        
         for note in self.notes:
             if note.state == State.MARKED_FOR_DELETION:
                 self.parse_note_to_delete(note)
+                delete_count += 1
             elif note.state == State.UNKNOWN and note.id in existent_ids:
                 note.set_state(State.EXISTING)
                 self.parse_note_to_edit(note)
+                existing_count += 1
             else:  # note is new
                 note.set_state(State.NEW)
                 self.parse_note_to_add(note)
+                new_count += 1
 
+        logger.info(f"Note categorization complete: {new_count} new, {existing_count} existing, {delete_count} to delete")
         self.create_source_files_add_notes_metadata()
 
     def get_needed_target_decks(self):
@@ -88,26 +98,44 @@ class NotesManager:
         """
         analyzes the name of the medias as well as the content of the picture to determine if it is new or not
         """
+        logger.info(f"Categorizing {len(self.medias)} media files...")
+        
         # if pictures_in_anki and audios_in_anki are a set, it means that the user has chosen to not compare the content of the media
         if isinstance(pictures_in_anki, set) and isinstance(audios_in_anki, set):
+            logger.info("Using filename-only comparison for media files")
             medias_in_anki = pictures_in_anki.union(audios_in_anki)
+            new_media_count = 0
+            existing_media_count = 0
+            
             for media in self.medias:
                 if media.filename in medias_in_anki:
                     media.set_state(MediaState.STORED)
+                    existing_media_count += 1
                 else:
                     media.set_state(MediaState.NEW)
                     self.new_medias.append(media)
+                    new_media_count += 1
+            
+            logger.info(f"Media categorization complete: {new_media_count} new, {existing_media_count} existing")
         else:
+            logger.info("Using content comparison for media files")
             medias_in_anki = {**pictures_in_anki, **audios_in_anki}
+            new_media_count = 0
+            existing_media_count = 0
+            
             for media in self.medias:
                 if (
                     media.filename in medias_in_anki
                     and media.data == medias_in_anki[media.filename]
                 ):
                     media.set_state(MediaState.STORED)
+                    existing_media_count += 1
                 else:
                     media.set_state(MediaState.NEW)
                     self.new_medias.append(media)
+                    new_media_count += 1
+            
+            logger.info(f"Media categorization complete: {new_media_count} new, {existing_media_count} existing")
 
     def load_media_data(self, path_to_directory: Path) -> None:
         """ """
