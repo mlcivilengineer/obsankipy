@@ -19,7 +19,6 @@ Obsankipy synchronizes Markdown notes from an Obsidian vault into Anki by using 
 Optional tools:
 
 - CSS for syntax highlighting (see `examples/styles.css`)
-- [`uv`](https://github.com/astral-sh/uv) to run the script with dependencies defined in `src/obsankipy.py`
 
 ## Installation
 
@@ -74,7 +73,7 @@ globals:
 
 See `examples/vault/.obsankipy/config.yaml` for a full example with additional options.
 
-## Supported note types
+## Supported default note types
 
 ### Basic
 ```markdown
