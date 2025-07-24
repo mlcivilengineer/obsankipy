@@ -49,7 +49,7 @@ class FrontField:
         # freezes the vault_name parameter so we can satisfy the interface that
         # the transform_back and transform_front accepts, which are functions that have the signature
         # (str) -> (str), we could have created a closure but this is an alternative method
-        links_creator_trasnformer = partial(replace_with_link, vault_name=vault_name)
+        links_creator_transformer = partial(replace_with_link, vault_name=vault_name)
 
         self.transformers = [
             format_pictures_to_html_transformer,
@@ -57,7 +57,7 @@ class FrontField:
             to_anki_math_transformer,
             create_code_blocks_transformer,
             append_url_transformer,
-            links_creator_trasnformer,
+            links_creator_transformer,
         ]
 
     def transform(self):
@@ -83,14 +83,14 @@ class BackField:
             self.field_name = field_name
         self.text = text
 
-        links_creator_trasnformer = partial(replace_with_link, vault_name=vault_name)
+        links_creator_transformer = partial(replace_with_link, vault_name=vault_name)
 
         self.transformers = [
             format_pictures_to_html_transformer,
             format_audio_to_html_transformer,
             to_anki_math_transformer,
             create_code_blocks_transformer,
-            links_creator_trasnformer,
+            links_creator_transformer,
         ]
 
     def transform(self):
