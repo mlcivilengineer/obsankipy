@@ -81,7 +81,7 @@ class AnkiManager:
 
 
     def store_media_files(self, pictures: List[Picture]) -> None:
-        logger.info("storing media files in anki that are not already stored")
+        logger.info(f"Uploading {len(pictures)} media files...")
         if not pictures:
             return
         requests = [AnkiStoreMediaFileRequest(pic) for pic in pictures]
@@ -136,14 +136,14 @@ class AnkiManager:
             raise
 
     def updates_existing_notes(self, notes: List[Note]) -> None:
-        logger.info("updating existing notes in anki")
+        logger.info(f"Updating {len(notes)} existing notes...")
         if not notes:
             return
         multi_request = _create_multi_request(notes, AnkiUpdateNoteRequest)
         response = self._invoke_request(multi_request)
 
     def ensure_correct_deck(self, notes: List[Note]) -> None:
-        logger.info("ensuring correct deck for notes in anki")
+        logger.info("Ensuring correct deck for notes in anki")
         if not notes:
             return
         multi_request = _create_multi_request(notes, AnkiChangeDeckRequest)
@@ -156,9 +156,9 @@ class AnkiManager:
         self._invoke_request(AnkiDeleteNotesRequest(notes))
 
     def create_decks(self, decks: List[str]) -> None:
-        logger.info("creating decks in anki")
         if not decks:
             return
+        logger.info(f"Making sure that these Decks exist: {list(decks)}")
         requests = [AnkiCreateDeckRequest(deck) for deck in decks]
         multi_request = AnkiMultiRequest(requests)
         self._invoke_request(multi_request)

@@ -138,7 +138,7 @@ class NotesManager:
             logger.info(f"Media categorization complete: {new_media_count} new, {existing_media_count} existing")
 
     def load_media_data(self, path_to_directory: Path) -> None:
-        """ """
+        logger.info("Loading media data...")
         for media in self.medias:
             media.load_data(Path(path_to_directory))
 
@@ -150,6 +150,7 @@ class NotesManager:
 
 
 def set_new_ids(ids: List[Tuple[Note, int]]) -> None:
+    logger.info("Updating source files with new note IDs...")
     for note, id in ids:
         note.id = id
         note.set_state(State.EXISTING)

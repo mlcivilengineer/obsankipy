@@ -63,18 +63,13 @@ def run(config: NewConfig):
         return
 
     # Extract and categorize notes
-    logger.info("Extracting notes from files...")
     notes_manager = vault.get_notes_from_new_files()
     total_notes = len(notes_manager.get_all_notes())
-    logger.info(f"Extracted {total_notes} notes from files")
-    
-    logger.info("Categorizing notes (new/existing/deleted)...")
+
     notes_manager.categorize_notes(ids)
     
-    logger.info("Loading media data...")
     notes_manager.load_media_data(config.vault.medias_dir_path)
     
-    logger.info("Categorizing media files...")
     notes_manager.categorize_medias(pics_in_anki, audios_in_anki)
     medias = notes_manager.get_media_to_add()
 
@@ -91,28 +86,22 @@ def run(config: NewConfig):
     logger.info(f"  Notes to edit: {len(notes_to_edit)}")
     logger.info(f"  Notes to delete: {len(notes_to_delete)}")
     logger.info(f"  Media files to add: {len(medias)}")
-    if decks_to_create:
-        logger.info(f"  Making sure that these Decks exist: {list(decks_to_create)}")
     logger.info("=" * 50)
     
     # Execute operations
     if decks_to_create:
-        logger.info("Creating new decks...")
         anki_requester.create_decks(decks_to_create)
     
     if notes_to_delete:
         logger.info(f"Deleting {len(notes_to_delete)} notes...")
         anki_requester.delete_notes(notes_to_delete)
-        logger.info("Removing note IDs from source files...")
         erase_note_ids_in_the_files([note.source_file.path for note in notes_to_delete])
 
     if notes_to_add:
-        logger.info(f"Adding {len(notes_to_add)} new notes...")
         add_response = anki_requester.adds_new_notes(notes_to_add)
 
         if add_response:
             logger.info(f"Successfully added {len(add_response)} notes")
-            logger.info("Updating source files with new note IDs...")
             set_new_ids(add_response)
             out_of_date_files = notes_manager.get_out_of_date_files()
             for file in out_of_date_files:
@@ -124,15 +113,12 @@ def run(config: NewConfig):
         logger.info("No new notes to add")
 
     if notes_to_edit:
-        logger.info(f"Updating {len(notes_to_edit)} existing notes...")
         anki_requester.updates_existing_notes(notes_to_edit)
-        logger.info("Ensuring notes are in correct decks...")
         anki_requester.ensure_correct_deck(notes_to_edit)
     else:
         logger.info("No notes to update")
 
     if medias:
-        logger.info(f"Uploading {len(medias)} media files...")
         anki_requester.store_media_files(medias)
     else:
         logger.info("No new media files to upload")
