@@ -160,3 +160,4 @@ cython_debug/
 .idea/
 uv.lock
 pyproject.toml
+.vault_file_hashes.json
