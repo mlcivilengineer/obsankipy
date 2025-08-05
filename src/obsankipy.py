@@ -36,47 +36,53 @@ def main():
     args = setup_cli_parser()
     setup_root_logger(args.debug)
     logger = logging.getLogger(__name__)
-    
+
+    logger.info("")  # Blank line
     logger.info("=" * 60)
-    logger.info("Starting Obsankipy - Obsidian to Anki synchronization")
+    logger.info("🔁 Starting Obsankipy — Obsidian ↔ Anki Synchronization".center(60))
     logger.info("=" * 60)
-    logger.info(f"Configuration file: {args.config_path}")
-    logger.info(f"Debug mode: {'enabled' if args.debug else 'disabled'}")
-    
+    logger.info("")  # Blank line
+    logger.info(f"🛠️  Configuration file: {args.config_path}")
+    logger.info(f"{'🔍' if args.debug else '📦'} Debug mode: {'enabled' if args.debug else 'disabled'}")
+
     try:
-        logger.info("Loading configuration file...")
+        logger.info("📄 Loading configuration file...")
         with open(Path(args.config_path), "r", encoding="utf-8") as f:
             config = yaml.safe_load(f)
-        logger.info("Configuration loaded successfully")
-        
-        logger.info("Parsing and validating configuration...")
+        logger.info("✅ Configuration loaded successfully")
+
+        logger.info("🧪 Parsing and validating configuration...")
         new_config = NewConfig(**config)
-        logger.info("Configuration validation completed")
-        
+        logger.info("✅ Configuration validation completed")
+
     except FileNotFoundError:
-        logger.error(f"Configuration file not found: {args.config_path}")
+        logger.error("❌ Configuration file not found!")
         raise
     except yaml.YAMLError as e:
-        logger.error(f"Invalid YAML in configuration file: {e}")
+        logger.error("❌ Invalid YAML syntax in configuration file!")
         raise
     except Exception as e:
-        logger.error(f"Error parsing configuration file: {e}")
-        logger.exception("Full error details:")
+        logger.error("❗ Unexpected error while parsing configuration!")
+        logger.error(f"🪵 Error: {e}")
+        logger.exception("📋 Full traceback:")
         raise
 
-    logger.info("Starting synchronization process...")
+    logger.info("🚀 Starting synchronization process...")
     try:
         run(new_config)
+        logger.info("")  # Blank line
         logger.info("=" * 60)
-        logger.info("Obsankipy synchronization completed successfully!")
+        logger.info("✅ Obsankipy synchronization completed successfully!".center(60))
         logger.info("=" * 60)
     except Exception as e:
+        logger.info("")  # Blank line
         logger.error("=" * 60)
-        logger.error("Obsankipy synchronization failed!")
-        logger.error(f"Error: {e}")
+        logger.error("💥 Obsankipy synchronization failed!".center(60))
+        logger.error(f"❗ Error: {e}")
         logger.error("=" * 60)
         raise
 
 
 if __name__ == "__main__":
     main()
+
