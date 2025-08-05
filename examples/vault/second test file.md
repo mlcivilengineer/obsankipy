@@ -21,19 +21,12 @@ this is a inline math  $[ x = \frac{{-b \pm \sqrt{{b^2 - 4ac}}}}{{2a}}]$ formula
 this is an audio
 ![[file_example_MP3_700KB.mp3]]
 
-
-
-
-<!--ID: 1752585988840-->
-<!--ID: 1701224547713-->
 +++
 
 this should be a {{c1::cloze}} and {{c2::I love it}} :)
-<!--ID: 1752585988843-->
 
  
 Q: this is a test
 A: this is the test answer
 
-<!--ID: 1752585988842-->
 +++

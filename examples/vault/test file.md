@@ -34,30 +34,25 @@ this is an audio:
 this is a gif test:
 ![gif test](https://cdn.shortpixel.ai/spai/q_lossy+w_631+to_webp+ret_img/mailfloss.com/storage/2019/08/5d667803a7a67_gif1-Everyonelovesgifs_4ef1dbef8a604a3e1b26eebf2c000ef0.gif)
 
-<!--ID: 1752585988844-->
 +++
 
  This is a cloze {{c1::test}}
-<!--ID: 1752585988849-->
 
 
 #reversed
 this is a reversed card question
 and this is the reversed card answer
 
-<!--ID: 1752585988846-->
 +++
 
 #type
 this is a type the answer question
 answer
 
-<!--ID: 1752585988848-->
 +++
 
 #spaced 
 this is a test with plus
 answer
 
-<!--ID: 1752585988845-->
 +++

@@ -76,11 +76,16 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 ## Quick Start
 
 ### Try the Example
-With Anki open in the background, run the following in a Linux / MacOS Terminal or Windows Powershell:
+Make sure Anki is open and running in the background, then run the following command in your terminal or PowerShell:
 
 ```bash
 uv run src/obsankipy.py examples/vault/.obsankipy/config.yaml
 ```
+
+✅ Important:
+Run this command from the root of the project directory (where examples/ and src/ are located).
+This example uses the sample config located at examples/vault/.obsankipy/config.yaml.
+🧠 This will synchronize the notes and media from the example Obsidian vault to your Anki setup using the provided configuration.
 
 ### Debug Mode
 ```bash
