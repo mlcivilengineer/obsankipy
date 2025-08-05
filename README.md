@@ -83,8 +83,11 @@ uv run src/obsankipy.py examples/vault/.obsankipy/config.yaml
 ```
 
 ✅ Important:
+
 Run this command from the root of the project directory (where examples/ and src/ are located).
+
 This example uses the sample config located at examples/vault/.obsankipy/config.yaml.
+
 🧠 This will synchronize the notes and media from the example Obsidian vault to your Anki setup using the provided configuration.
 
 ### Debug Mode
