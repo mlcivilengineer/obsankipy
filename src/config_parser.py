@@ -81,21 +81,29 @@ class GlobalConfig(BaseModel):
     anki: AnkiConfig
 
 class NewConfig(BaseModel):
-    globals: GlobalConfig
-    vault: VaultConfig
-    regex: Optional[RegexConfig]
-    hashes_cache_dir: Annotated[str, Field(validate_default=True)] = ""
+    globals: "GlobalConfig"
+    vault: "VaultConfig"
+    regex: Optional["RegexConfig"] = None
+    hashes_cache_dir: Annotated[
+        Optional[Path],
+        Field(default=None, description="Path to cache dir, defaults to vault/.obsankipy")
+    ]
 
     def get_note_types(self):
         return self.regex.get_note_types()
 
     @model_validator(mode="after")
     def validate_paths(self) -> "NewConfig":
-        if self.hashes_cache_dir:
-            if not os.path.exists(self.hashes_cache_dir):
-                raise ValueError(f"Path {self.hashes_cache_dir} does not exist")
-            self.hashes_cache_dir = Path(self.hashes_cache_dir)
+        if self.hashes_cache_dir is None:
+            self.hashes_cache_dir = self.vault.dir_path / ".obsankipy"
         else:
-            self.hashes_cache_dir = Path(self.vault.dir_path) / ".obsankipy"
+            resolved_path = Path(self.hashes_cache_dir).expanduser().resolve()
+            if not resolved_path.exists():
+                raise ValueError(
+                    f"⚠️ Path '{resolved_path}' does not exist. "
+                    "Check for typos or ensure you run the code from the correct directory."
+                )
+            self.hashes_cache_dir = resolved_path
 
+        logger.info(f"📁 The cache directory is: {self.hashes_cache_dir}")
         return self
