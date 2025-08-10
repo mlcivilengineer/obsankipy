@@ -63,8 +63,6 @@ def main():
         raise
     except Exception as e:
         logger.error("❗ Unexpected error while parsing configuration!")
-        logger.error(f"🪵 Error: {e}")
-        logger.exception("📋 Full traceback:")
         raise
 
     logger.info("🚀 Starting synchronization process...")

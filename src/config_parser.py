@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 from typing_extensions import Annotated
-from pydantic import BaseModel, field_validator, ValidationInfo, Field
+from pydantic import BaseModel, field_validator, Field, model_validator
 
 
 class AnkiConfig(BaseModel):
@@ -21,17 +21,21 @@ class AnkiConfig(BaseModel):
 
 
 class VaultConfig(BaseModel):
-    dir_path: str
-    medias_dir_path: str
-    exclude_dirs_from_scan: Optional[List[str]] = []
-    exclude_dotted_dirs_from_scan: Optional[bool] = True
-    file_patterns_to_exclude: Optional[List[str]] = []
+    dir_path: Path
+    medias_dir_path: Path
+    exclude_dirs_from_scan: List[str] = Field(default_factory=list)
+    exclude_dotted_dirs_from_scan: bool = True
+    file_patterns_to_exclude: List[str] = Field(default_factory=list)
 
     @field_validator("dir_path", "medias_dir_path")
-    def dir_path_must_exist(cls, v):
-        if not os.path.exists(v):
-            raise ValueError(f"Path {v} does not exist")
-        return Path(v)
+    def validate_and_resolve_path(cls, v: Path) -> Path:
+        # Accept relative paths, resolve to absolute
+        resolved_path = Path(v).expanduser().resolve()
+        if not resolved_path.exists():
+            raise ValueError(f"⚠️ Path '{v}' does not exist. "
+                             f"There might be a typo or you are probably using relative paths and running "
+                             f"the code in the wrong directory relative to the path.")
+        return resolved_path
 
 
 class RegexConfig(BaseModel):
@@ -76,7 +80,6 @@ class RegexConfig(BaseModel):
 class GlobalConfig(BaseModel):
     anki: AnkiConfig
 
-
 class NewConfig(BaseModel):
     globals: GlobalConfig
     vault: VaultConfig
@@ -86,11 +89,13 @@ class NewConfig(BaseModel):
     def get_note_types(self):
         return self.regex.get_note_types()
 
-    @field_validator("hashes_cache_dir", mode="after")
-    def dir_path_must_exist(cls, v, info: ValidationInfo):
-        if v:
-            if not os.path.exists(v):
-                raise ValueError(f"Path {v} does not exist")
-            return Path(v)
+    @model_validator(mode="after")
+    def validate_paths(self) -> "NewConfig":
+        if self.hashes_cache_dir:
+            if not os.path.exists(self.hashes_cache_dir):
+                raise ValueError(f"Path {self.hashes_cache_dir} does not exist")
+            self.hashes_cache_dir = Path(self.hashes_cache_dir)
         else:
-            return Path(info.data["vault"].dir_path / ".obsankipy")
+            self.hashes_cache_dir = Path(self.vault.dir_path) / ".obsankipy"
+
+        return self

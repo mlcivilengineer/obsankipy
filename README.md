@@ -325,6 +325,23 @@ See `examples/vault/test file.md` for a comprehensive example showing:
 3. **Exclude template directories** from scanning
 4. **Use specific regex patterns** to avoid false matches
 
+### Styling code blocks in Anki (AnkiDesktop, AnkiDroid, AnkiMobile)
+This project ships a ready-to-use stylesheet for code blocks at examples/styles.css.
+It gives you full-width, horizontally scrollable code blocks with consistent dark backgrounds on mobile.
+
+You can use it in Anki by:
+
+#### Paste the CSS into the Note Type
+Open Anki Desktop → Tools → Manage Note Types.
+
+Select your note type → Cards….
+
+Click the Styling tab (applies to both Front and Back).
+
+Paste the contents of examples/styles.css at the top and click Save.
+
+Sync. AnkiDroid/AnkiMobile will now render code blocks with this style.
+
 ## Contributing
 
 Contributions are welcome! Please:
