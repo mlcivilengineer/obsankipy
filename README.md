@@ -332,15 +332,11 @@ It gives you full-width, horizontally scrollable code blocks with consistent dar
 You can use it in Anki by:
 
 #### Paste the CSS into the Note Type
-Open Anki Desktop → Tools → Manage Note Types.
-
-Select your note type → Cards….
-
-Click the Styling tab (applies to both Front and Back).
-
-Paste the contents of examples/styles.css at the top and click Save.
-
-Sync. AnkiDroid/AnkiMobile will now render code blocks with this style.
+1. Open Anki Desktop → Tools → Manage Note Types.
+2. Select your note type → Cards….
+3. Click the Styling tab (applies to both Front and Back).
+4. Paste the contents of examples/styles.css at the top and click Save.
+5. Sync. AnkiDroid/AnkiMobile will now render code blocks with this style.
 
 ## Contributing
 
