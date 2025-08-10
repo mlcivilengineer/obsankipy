@@ -139,7 +139,7 @@ def clear_file_hashes(hashes_cache_dir):
         return
 
 
-def open_cache(hashes_path: Path):
+def open_cache(hashes_path: Path) -> list[str]:
     """Open and load the file hash cache."""
     try:
         logger.debug(f"Opening cache file at {hashes_path}")

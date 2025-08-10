@@ -58,7 +58,7 @@ class VaultManager:
         self.set_files()
         self.note_types = note_types
 
-    def set_new_files(self, file_hashes):
+    def set_new_files(self, file_hashes: list[str]):
         self.new_files = [
             file for file in self.files if file.original_hash not in file_hashes
         ]
