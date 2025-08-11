@@ -16,6 +16,7 @@ from anki.requests import (
     AnkiChangeDeckRequest,
     AnkiDeleteNotesRequest,
     AnkiCreateDeckRequest,
+    AnkiFindCardsRequest,
 )
 from anki.utils import _create_multi_request, _parse, T
 from media import Picture
@@ -140,7 +141,20 @@ class AnkiManager:
         if not notes:
             return
         multi_request = _create_multi_request(notes, AnkiUpdateNoteRequest)
+        self._invoke_request(multi_request)
+
+    def get_cards_ids_from_note(self, notes: List[Note]) -> tuple[Note, list[int]] | None:
+        """
+        We need to get the cards ids because when changing the decks of particular notes
+        the ChangeDeck request works on the card id level, not note id level.
+        """
+
+        if not notes:
+            return
+        multi_request = _create_multi_request(notes, AnkiFindCardsRequest)
         response = self._invoke_request(multi_request)
+        zipped_note_cards = zip(notes, response)
+        return zipped_note_cards
 
     def ensure_correct_deck(self, notes: List[Note]) -> None:
         logger.info("Ensuring correct deck for notes in anki")

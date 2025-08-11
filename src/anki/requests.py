@@ -227,6 +227,28 @@ class AnkiFindNotesRequest:
     def to_anki_dict(self):
         return self.__dict__
 
+class AnkiFindCardsRequest:
+    """
+        ex:
+        {
+          "action": "findCards",
+          "version": 6,
+          "params": {
+            "query": "nid:1234567890"
+          }
+        }
+    the query syntax is at https://docs.ankiweb.net/searching.html
+    and an empty string returns all cards
+    """
+
+    def __init__(self, note: Note):
+        self.action = "findCards"
+        self.version = 6
+        self.params = {"query": f"nid:{note.note_id}"}
+
+    def to_anki_dict(self):
+        return self.__dict__
+
 
 class AnkiChangeDeckRequest:
     """
@@ -244,7 +266,7 @@ class AnkiChangeDeckRequest:
     def __init__(self, note: Note):
         self.action = "changeDeck"
         self.version = 6
-        self.params = {"cards": [note.id], "deck": note.target_deck}
+        self.params = {"cards": note.cards_ids, "deck": note.target_deck}
 
     def to_anki_dict(self):
         return self.__dict__
@@ -265,7 +287,7 @@ class AnkiDeleteNotesRequest:
     def __init__(self, notes: List[Note]):
         self.action = "deleteNotes"
         self.version = 6
-        self.params = {"notes": [note.id for note in notes]}
+        self.params = {"notes": [note.note_id for note in notes]}
 
     def to_anki_dict(self):
         return self.__dict__

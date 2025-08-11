@@ -120,6 +120,10 @@ def run(config: NewConfig):
         logger.info("ℹ️  No new notes to add")
 
     if notes_to_edit:
+        note_cards_ids = anki_requester.get_cards_ids_from_note(notes_to_edit)
+        # populates the note with its cards ids so it can be used by the requester
+        for note, cards_ids in note_cards_ids:
+            note.cards_ids = cards_ids
         anki_requester.updates_existing_notes(notes_to_edit)
         anki_requester.ensure_correct_deck(notes_to_edit)
     else:

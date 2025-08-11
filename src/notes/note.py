@@ -37,7 +37,8 @@ class NoteOptions:
 class Note:
     state: State
     note_type: Any
-    id: Optional[int]
+    note_id: int | None
+    cards_ids: list[int] | None
     source_file: "File"
     note_start_span: int
     note_end_span: int
@@ -85,19 +86,20 @@ class Note:
         self.set_id_location_in_file()
 
         self.options = NoteOptions()
+        self.cards_ids = None
 
     def check_state(self, named_captures):
         if named_captures["delete"] is not None:
             self.state = State.MARKED_FOR_DELETION
-            self.id = int(named_captures["id_num"])
+            self.note_id = int(named_captures["id_num"])
         elif named_captures["id_num"] is not None:
             self.state = (
                 State.UNKNOWN
             )  # this id may exist in anki, we need to check later
-            self.id = int(named_captures["id_num"])
+            self.note_id = int(named_captures["id_num"])
         else:
             self.state = State.NEW
-            self.id = None
+            self.note_id = None
 
     def set_id_location_in_file(self):
         if self.note_type.note_type == NoteVariant.CLOZE:
@@ -164,7 +166,7 @@ class Note:
             }
         else:  # to be used with updateNote in anki
             return {
-                "id": self.id,
+                "id": self.note_id,
                 "modelName": self.note_type.to_anki_dict(),
                 "deckName": self.target_deck,
                 "tags": self.tags,

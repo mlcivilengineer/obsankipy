@@ -171,7 +171,7 @@ class File:
         we need to get the location of the last character of the answer, so we use group 2, which will be the answer
         """
         return [
-            IDFileLocation(note.id_location_in_file, note.id)
+            IDFileLocation(note.id_location_in_file, note.note_id)
             for note in self.to_add_notes
         ]
 

@@ -68,7 +68,7 @@ class NotesManager:
             if note.state == State.MARKED_FOR_DELETION:
                 self.parse_note_to_delete(note)
                 delete_count += 1
-            elif note.state == State.UNKNOWN and note.id in existent_ids:
+            elif note.state == State.UNKNOWN and note.note_id in existent_ids:
                 note.set_state(State.EXISTING)
                 self.parse_note_to_edit(note)
                 existing_count += 1
@@ -152,5 +152,5 @@ class NotesManager:
 def set_new_ids(ids: List[Tuple[Note, int]]) -> None:
     logger.info("Updating source files with new note IDs...")
     for note, id in ids:
-        note.id = id
+        note.note_id = id
         note.set_state(State.EXISTING)

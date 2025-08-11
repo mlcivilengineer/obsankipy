@@ -3,7 +3,13 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 
-Obsankipy is a Python tool that synchronizes Markdown notes from an Obsidian vault into Anki flashcards using the AnkiConnect API. It was inspired by the [Obsidian_to_Anki](https://github.com/ObsidianToAnki/Obsidian_to_Anki) plugin but is implemented entirely in Python, allowing it to run independently without the Obsidian application, thus enabling better automation.
+Obsankipy is a Python tool that synchronizes Markdown notes from an Obsidian vault into Anki flashcards using the AnkiConnect API. 
+It was inspired by the [Obsidian_to_Anki](https://github.com/ObsidianToAnki/Obsidian_to_Anki) plugin but is implemented entirely in Python,
+allowing it to run independently without the Obsidian application, thus enabling better automation.
+
+With this tool, you can quickly create Anki cards directly from your keyboard — no need to navigate the Anki GUI. 
+By integrating your Obsidian personal knowledge base with Anki’s FSRS algorithm,
+you can seamlessly combine spaced repetition and active recall for more efficient learning.
 
 ## Table of Contents
 
@@ -284,7 +290,6 @@ The quadratic formula is $x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$
 ```
 
 #### Code Blocks
-```markdown
 ```python
 def fibonacci(n):
     if n <= 1:
@@ -304,8 +309,6 @@ For automation or remote deployments:
    ```
 
 2. **Docker deployment**: Consider using [anki-desktop-docker](https://github.com/mlcivilengineer/anki-desktop-docker)
-
-3. **Security**: Ensure AnkiConnect is properly secured for remote access
 
 ## Examples
 
@@ -347,6 +350,11 @@ Contributions are welcome! Please:
 3. Make your changes
 4. Submit a pull request
 
+## Update project
+To update your local copy of this repo with the latest changes from the main branch, run:
+```bash
+git pull origin main
+```
 
 ## License
 
@@ -354,7 +362,7 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 
 ## Acknowledgments
 
-- Inspired by the `obsidian_to_anki` plugin
+- Inspired by the [Obsidian_to_Anki](https://github.com/ObsidianToAnki/Obsidian_to_Anki) plugin
 - Built with modern Python tooling using `uv`
 - Leverages the powerful AnkiConnect API
 
