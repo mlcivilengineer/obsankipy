@@ -36,7 +36,7 @@ this is a gif test:
 
 +++
 
- This is a cloze {{c1::test}}
+This is a cloze {{c1::test}}
 
 
 #reversed
@@ -55,4 +55,14 @@ answer
 this is a test with plus
 answer
 
++++
+
+#spacedbigfront
+This is a card
+
+where the front expands multiple lines
+!!!
+this is the back
+
+which also expands multiple lines
 +++
