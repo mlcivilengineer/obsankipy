@@ -103,30 +103,13 @@ uv run src/obsankipy.py path/to/config.yaml --debug
 
 All required Python packages are installed automatically on first run.
 
-## Configuration
+## Your own vault configuration
 
 ### Configuration File Structure
 
 Create a `.obsankipy` directory inside your vault with a `config.yaml` file. The configuration has three main sections:
 
-#### Minimal Configuration
 ```yaml
-vault:
-  dir_path: ./path/to/your/vault
-  medias_dir_path: ./path/to/your/vault/Medias
-regex:
-  basic:
-    - (?<=#spaced)\s*\n([\s\S]*?)\n([\s\S]*?(?=---|<!--|$(?![\r\n])))
-globals:
-  anki:
-    url: http://localhost:8765
-```
-
-#### Complete Configuration Example
-```yaml
-# Optional: Custom cache directory for file hashes
-hashes_cache_dir: ./examples/vault/.obsankipy
-
 vault:
   dir_path: ./examples/vault
   medias_dir_path: ./examples/vault/Medias
@@ -142,6 +125,7 @@ regex:
   basic:
     - '(?<=#spaced)\s*\n([\s\S]*?)\n([\s\S]*?(?=\+\+\+|---|<!--|$(?![\r\n])))'
     - '^Q: ((?:.+\n)*)\n*A: ([\s\S]*?(?=\+\+\+|---|<!--ID: ))'
+    - '(?<=#spacedbigfront)\s*\n([\s\S]*?)\s*!!!\s*([\s\S]*?(?=\+\+\+|<!--|$(?![\r\n])))'
   basic_reversed:
     - '(?<=#reversed)\s*\n([\s\S]*?)\n([\s\S]*?(?=\+\+\+|---|<!--|$(?![\r\n])))'
   type_answer:
@@ -177,7 +161,10 @@ Define patterns for different note types. Each pattern must capture:
 - `deck_name`: Default Anki deck
 - `tags`: Default tags applied to all cards
 - `url`: AnkiConnect endpoint
-- `fine_grained_image_import`: Advanced image processing
+- **fine_grained_image_import** (bool):  
+When `false` (default), image imports compare files by filename only for better performance.  
+When `true`, image contents are also compared, so changes are detected even if the filename stays the same (slower performance).
+
 
 ## Supported Note Types
 
@@ -324,9 +311,8 @@ See `examples/vault/test file.md` for a comprehensive example showing:
 ### Performance Tips
 
 1. **Use file exclusion patterns** to skip unnecessary files
-2. **Enable hash caching** for large vaults
-3. **Exclude template directories** from scanning
-4. **Use specific regex patterns** to avoid false matches
+2. **Exclude template directories** from scanning
+3. **Use specific regex patterns** to avoid false matches
 
 ### Styling code blocks in Anki (AnkiDesktop, AnkiDroid, AnkiMobile)
 This project ships a ready-to-use stylesheet for code blocks at examples/styles.css.

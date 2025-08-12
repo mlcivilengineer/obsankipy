@@ -102,7 +102,12 @@ class NotesManager:
         
         # if pictures_in_anki and audios_in_anki are a set, it means that the user has chosen to not compare the content of the media
         if isinstance(pictures_in_anki, set) and isinstance(audios_in_anki, set):
-            logger.info("Using filename-only comparison for media files")
+            logger.warning(
+                "Media files are being compared by filename only. "
+                "If you modify a file without changing its name, those changes will not be detected. "
+                "To detect changes without renaming, enable 'fine_grained_image_import' in the config file "
+                "(note: this will reduce performance)."
+            )
             medias_in_anki = pictures_in_anki.union(audios_in_anki)
             new_media_count = 0
             existing_media_count = 0
@@ -115,8 +120,6 @@ class NotesManager:
                     media.set_state(MediaState.NEW)
                     self.new_medias.append(media)
                     new_media_count += 1
-            
-            logger.info(f"Media categorization complete: {new_media_count} new, {existing_media_count} existing")
         else:
             logger.info("Using content comparison for media files")
             medias_in_anki = {**pictures_in_anki, **audios_in_anki}
@@ -135,7 +138,7 @@ class NotesManager:
                     self.new_medias.append(media)
                     new_media_count += 1
             
-            logger.info(f"Media categorization complete: {new_media_count} new, {existing_media_count} existing")
+        logger.info(f"Media categorization complete: {new_media_count} new, {existing_media_count} existing")
 
     def load_media_data(self, path_to_directory: Path) -> None:
         logger.info("Loading media data...")
