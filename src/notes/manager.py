@@ -103,7 +103,7 @@ class NotesManager:
         # if pictures_in_anki and audios_in_anki are a set, it means that the user has chosen to not compare the content of the media
         if isinstance(pictures_in_anki, set) and isinstance(audios_in_anki, set):
             logger.warning(
-                "Media files are being compared by filename only. "
+                "⚠️  Media files are being compared by filename only. "
                 "If you modify a file without changing its name, those changes will not be detected. "
                 "To detect changes without renaming, enable 'fine_grained_image_import' in the config file "
                 "(note: this will reduce performance)."
