@@ -19,7 +19,6 @@ class State(enum.Enum):
     MARKED_FOR_DELETION = enum.auto()
 
 
-
 class DuplicateScopeOptions:
     deck_name: str
     check_children: bool

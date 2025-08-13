@@ -43,11 +43,15 @@ def main():
     logger.info("=" * 60)
     logger.info("")  # Blank line
     logger.info(f"🛠️  Configuration file: {args.config_path}")
-    logger.info(f"{'🔍' if args.debug else '📦'} Debug mode: {'enabled' if args.debug else 'disabled'}")
+    logger.info(
+        f"{'🔍' if args.debug else '📦'} Debug mode: {'enabled' if args.debug else 'disabled'}"
+    )
 
     try:
         logger.info("📄 Loading configuration file...")
-        with open(Path(args.config_path).expanduser().resolve(), "r", encoding="utf-8") as f:
+        with open(
+            Path(args.config_path).expanduser().resolve(), "r", encoding="utf-8"
+        ) as f:
             config = yaml.safe_load(f)
         logger.info("✅ Configuration loaded successfully")
 
@@ -83,4 +87,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

@@ -40,10 +40,14 @@ def run(config: NewConfig):
     logger.info(f"📄 Found {len(ids)} existing notes in Anki")
 
     logger.info("🖼️  Retrieving media files from Anki...")
-    medias_in_anki = anki_requester.get_medias(config.globals.anki.fine_grained_image_search)
+    medias_in_anki = anki_requester.get_medias(
+        config.globals.anki.fine_grained_image_search
+    )
     pics_in_anki = medias_in_anki["images"]
     audios_in_anki = medias_in_anki["audios"]
-    logger.info(f"🖼️  Found {len(pics_in_anki)} images and 🎵 {len(audios_in_anki)} audio files in Anki")
+    logger.info(
+        f"🖼️  Found {len(pics_in_anki)} images and 🎵 {len(audios_in_anki)} audio files in Anki"
+    )
 
     # Initialize vault manager
     logger.info("📂 Scanning vault for files...")
@@ -78,7 +82,7 @@ def run(config: NewConfig):
     decks_to_create = notes_manager.get_needed_target_decks()
 
     summary_lines = [
-        "", # blank line
+        "",  # blank line
         "=" * 60,
         "🧾 SYNCHRONIZATION SUMMARY".center(60),
         "=" * 60,
@@ -89,7 +93,7 @@ def run(config: NewConfig):
         f"🖼️  Media files:               {len(medias):>5} ({len(pics_in_anki)} images, {len(audios_in_anki)} audios)",
         f"📚 Decks to create:           {len(decks_to_create):>5}",
         "=" * 60,
-        ""
+        "",
     ]
 
     for line in summary_lines:

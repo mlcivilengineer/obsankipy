@@ -5,11 +5,11 @@ from typing import List, Optional
 
 from notes.note import NoteType, NoteVariant
 
-logger = logging.getLogger(__name__)
-
 
 from typing_extensions import Annotated
 from pydantic import BaseModel, field_validator, Field, model_validator
+
+logger = logging.getLogger(__name__)
 
 
 class AnkiConfig(BaseModel):
@@ -31,9 +31,11 @@ class VaultConfig(BaseModel):
         # Accept relative paths, resolve to absolute
         resolved_path = Path(v).expanduser().resolve()
         if not resolved_path.exists():
-            raise ValueError(f"⚠️ Path '{v}' does not exist. "
-                             f"There might be a typo or you are probably using relative paths and running "
-                             f"the code in the wrong directory relative to the path.")
+            raise ValueError(
+                f"⚠️ Path '{v}' does not exist. "
+                f"There might be a typo or you are probably using relative paths and running "
+                f"the code in the wrong directory relative to the path."
+            )
         return resolved_path
 
 
@@ -79,13 +81,16 @@ class RegexConfig(BaseModel):
 class GlobalConfig(BaseModel):
     anki: AnkiConfig
 
+
 class NewConfig(BaseModel):
     globals: "GlobalConfig"
     vault: "VaultConfig"
     regex: Optional["RegexConfig"] = None
     hashes_cache_dir: Annotated[
         Optional[Path],
-        Field(default=None, description="Path to cache dir, defaults to vault/.obsankipy")
+        Field(
+            default=None, description="Path to cache dir, defaults to vault/.obsankipy"
+        ),
     ]
 
     def get_note_types(self):

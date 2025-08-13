@@ -1,7 +1,6 @@
 import hashlib
 import logging
 
-logger = logging.getLogger(__name__)
 import os
 import re
 from typing import List
@@ -11,6 +10,8 @@ import frontmatter
 from notes.note import Note
 from utils.patterns import ID_REGEX_PATTERN
 from utils.helpers import string_insert, overwrite_file_safely, compute_hash
+
+logger = logging.getLogger(__name__)
 
 
 class IDFileLocation:
@@ -96,8 +97,10 @@ class File:
             self.content_len = len(self.curr_file_content)
             metadata = post.metadata
             self.frontmatter = {k.lower(): v for k, v in metadata.items()}
-            
-            logger.debug(f"File read successfully: {self.content_len} characters, {len(metadata)} frontmatter fields")
+
+            logger.debug(
+                f"File read successfully: {self.content_len} characters, {len(metadata)} frontmatter fields"
+            )
         except Exception as e:
             logger.error(f"Failed to read file {self.path}: {e}")
             raise
@@ -182,7 +185,9 @@ class File:
         overwrite_file_safely(self.path, self.curr_file_content)
 
     def write_new_ids_to_file(self):
-        logger.debug(f"Writing {len(self.to_add_notes)} new note IDs to file: {self.file_name}")
+        logger.debug(
+            f"Writing {len(self.to_add_notes)} new note IDs to file: {self.file_name}"
+        )
         id_locations = self.get_id_file_location_from_added_notes()
         self.overwrite_content_with_new_ids(id_locations)
         self.write_new_content()

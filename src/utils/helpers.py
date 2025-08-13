@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 def overwrite_file_safely(file_path, contents):
     """Safely overwrite a file using a temporary file to prevent data loss."""
     logger.debug(f"Safely overwriting file: {file_path}")
-    
+
     # Create a temporary file
     with tempfile.NamedTemporaryFile(mode="w", delete=False) as temp_file:
         temp_path = temp_file.name
@@ -93,7 +93,7 @@ def erase_note_ids_in_the_files(file_paths: List[Path]):
     if not file_paths:
         logger.info("No files to erase note IDs from")
         return
-        
+
     logger.info(f"Erasing note IDs from {len(file_paths)} files...")
     for file_path in file_paths:
         erase_note_id_in_the_file(file_path)
@@ -106,14 +106,16 @@ def erase_note_id_in_the_file(file_path: Path):
     try:
         with open(file_path, "r", encoding="utf-8") as f:
             file_content = f.read()
-        
+
         original_length = len(file_content)
         file_content = re.sub(ID_DELETE_REGEX, "", file_content)
         new_length = len(file_content)
-        
+
         if original_length != new_length:
-            logger.debug(f"Removed {original_length - new_length} characters (note IDs) from {file_path}")
-        
+            logger.debug(
+                f"Removed {original_length - new_length} characters (note IDs) from {file_path}"
+            )
+
         overwrite_file_safely(file_path, file_content)
     except Exception as e:
         logger.error(f"Failed to erase note IDs from {file_path}: {e}")
@@ -151,7 +153,9 @@ def open_cache(hashes_path: Path) -> list[str]:
         logger.info(f"Cache file not found at {hashes_path}, starting with empty cache")
         return []
     except json.JSONDecodeError as e:
-        logger.warning(f"Invalid JSON in cache file {hashes_path}: {e}. Starting with empty cache")
+        logger.warning(
+            f"Invalid JSON in cache file {hashes_path}: {e}. Starting with empty cache"
+        )
         return []
 
 
@@ -192,6 +196,7 @@ def write_hashes_to_file(curr_hashes, hashes_path: Path):
         logger.error(f"Failed to write hash cache to {hashes_path}: {e}")
         raise
 
+
 def setup_root_logger(debug=False):
     root_logger = logging.getLogger("")
     root_logger.setLevel(logging.DEBUG)  # Capture all logs, handlers will filter
@@ -206,9 +211,7 @@ def setup_root_logger(debug=False):
             "%(asctime)s ::: %(levelname)s ::: %(name)s ::: %(funcName)s ::: %(message)s"
         )
     else:
-        formatter = logging.Formatter(
-            "%(message)s"
-        )
+        formatter = logging.Formatter("%(message)s")
 
     # Console handler: INFO or higher
     console_handler = logging.StreamHandler()

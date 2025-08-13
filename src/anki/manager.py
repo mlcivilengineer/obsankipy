@@ -56,7 +56,9 @@ class AnkiManager:
         logger.debug(f"found the following ids in anki: {response}")
         return response
 
-    def get_medias(self, fine_grained_search=False) -> Union[Dict[str, Dict[str, str]], Dict[str, Dict[str, Set[str]]]]:
+    def get_medias(
+        self, fine_grained_search=False
+    ) -> Union[Dict[str, Dict[str, str]], Dict[str, Dict[str, Set[str]]]]:
         """get a dictionary of the media files and their data stored in anki"""
         media_file_names = self._invoke_request(AnkiGetMediaFilesNamesRequest())
         if fine_grained_search:
@@ -80,7 +82,6 @@ class AnkiManager:
                     result_dict["audios"].add(filename)
             return result_dict
 
-
     def store_media_files(self, pictures: List[Media]) -> None:
         logger.info(f"Uploading {len(pictures)} media files...")
         if not pictures:
@@ -99,14 +100,14 @@ class AnkiManager:
         if not notes:
             logger.info("No notes to add")
             return
-        
+
         try:
             adds_new_notes_request = AnkiAddNotesRequest(notes)
             response = self._invoke_request(adds_new_notes_request)
             add_response = list(zip(notes, response))
             add_response_no_duplicates = []
             duplicates_count = 0
-            
+
             if add_response is not None:
                 # remove from add_response if the id is None, because that means it was a duplicate
                 # Anki checks for uniqueness by looking at the front field, which has to be unique
@@ -122,7 +123,7 @@ class AnkiManager:
                             f"from file '{note.source_file.file_name}' was not added. "
                             f"Note may already exist in Anki or Note ID in Obsidian may be incorrect."
                         )
-            
+
             if add_response_no_duplicates:
                 add_response = add_response_no_duplicates
                 logger.info(f"Successfully added {len(add_response)} notes to Anki")
@@ -130,7 +131,7 @@ class AnkiManager:
                     logger.warning(f"Skipped {duplicates_count} duplicate notes")
             else:
                 logger.warning("No notes were added - all were duplicates")
-                
+
             return add_response
         except Exception as e:
             logger.error(f"Failed to add notes to Anki: {e}")
@@ -143,7 +144,9 @@ class AnkiManager:
         multi_request = _create_multi_request(notes, AnkiUpdateNoteRequest)
         self._invoke_request(multi_request)
 
-    def get_cards_ids_from_note(self, notes: List[Note]) -> tuple[Note, list[int]] | None:
+    def get_cards_ids_from_note(
+        self, notes: List[Note]
+    ) -> tuple[Note, list[int]] | None:
         """
         We need to get the cards ids because when changing the decks of particular notes
         the ChangeDeck request works on the card id level, not note id level.
