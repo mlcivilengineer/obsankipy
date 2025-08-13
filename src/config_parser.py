@@ -2,7 +2,6 @@ import logging
 from pathlib import Path
 from typing import List, Optional
 
-import os
 
 from notes.note import NoteType, NoteVariant
 

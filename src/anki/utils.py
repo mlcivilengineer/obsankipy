@@ -2,9 +2,9 @@ from typing import List, Any, Union, Dict, TypeVar
 
 import requests
 
-from anki.requests import AnkiMultiRequest
+from anki.requests import AnkiMultiRequest, ToAnkiJson
 
-T = TypeVar("T", bound="ToAnkiJson")  # Type T has to implement the method to_anki_dict
+T = TypeVar("T", bound=ToAnkiJson)  # Type T has to implement the method to_anki_dict
 
 
 def _create_multi_request(list_of: List[T], request_type: Any) -> AnkiMultiRequest:

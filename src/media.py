@@ -30,5 +30,5 @@ class Media:
     def set_state(self, state: MediaState):
         self.state = state
 
-    def load_data(self, dir: Path):
-        self.data = file_encode(dir / self.filename)
+    def load_data(self, dir_path: Path):
+        self.data = file_encode(dir_path / self.filename)

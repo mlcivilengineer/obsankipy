@@ -58,10 +58,10 @@ def main():
     except FileNotFoundError:
         logger.error("❌ Configuration file not found!")
         raise
-    except yaml.YAMLError as e:
+    except yaml.YAMLError:
         logger.error("❌ Invalid YAML syntax in configuration file!")
         raise
-    except Exception as e:
+    except Exception:
         logger.error("❗ Unexpected error while parsing configuration!")
         raise
 
