@@ -171,6 +171,7 @@ When `true`, image contents are also compared, so changes are detected even if t
 All the basic anki note types are supported. You can customize how all the note types will be captured. The default way that they will be captured is the following:
 
 ### Basic Cards
+#### Front one liner
 ```markdown
 #spaced
 What is the capital of France?
@@ -178,7 +179,18 @@ What is the capital of France?
 Paris is the capital of France.
 +++
 ```
+#### Multi line front
+```markdown
+#spacedbigfront
+What is the capital of France?
 
+Is it bigger than Berlin?
+!!!
+Paris is the capital of France. 
+
+No it is not bigger
++++
+```
 ### Basic Reversed Cards
 ```markdown
 #reversed

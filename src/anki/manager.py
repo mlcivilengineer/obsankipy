@@ -19,7 +19,7 @@ from anki.requests import (
     AnkiFindCardsRequest,
 )
 from anki.utils import _create_multi_request, _parse, T
-from media import Picture
+from media import Media
 from notes.note import Note
 from utils.constants import SUPPORTED_IMAGE_EXTS, SUPPORTED_AUDIO_EXTS
 
@@ -81,7 +81,7 @@ class AnkiManager:
             return result_dict
 
 
-    def store_media_files(self, pictures: List[Picture]) -> None:
+    def store_media_files(self, pictures: List[Media]) -> None:
         logger.info(f"Uploading {len(pictures)} media files...")
         if not pictures:
             return

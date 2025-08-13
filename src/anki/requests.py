@@ -7,7 +7,7 @@
 
 from typing import Any, List, Protocol
 
-from media import Picture
+from media import Media
 from notes.note import Note
 
 
@@ -167,7 +167,7 @@ class AnkiStoreMediaFileRequest:
     }
     """
 
-    def __init__(self, picture: Picture):
+    def __init__(self, picture: Media):
         self.action = "storeMediaFile"
         self.version = 6
         self.params = {"filename": picture.filename, "data": picture.data}

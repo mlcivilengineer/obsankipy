@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import List, Set, Dict, Tuple, Any, Union
 
 from files import File
-from media import MediaState, Picture, Audio
+from media import MediaState, Media, Media
 from notes.note import Note, State
 
 import logging
@@ -20,15 +20,15 @@ class NotesManager:
     notes_to_edit: List[Note]
     notes_to_delete: List[Note]
     new_medias: List[Any]
-    medias: List[Picture]
+    medias: List[Media]
 
     def __init__(self, notes) -> None:
         self.notes: List[Note] = notes
         self.notes_to_add: List[Note] = list()
         self.notes_to_edit: List[Note] = list()
         self.notes_to_delete: List[Note] = list()
-        self.new_medias: List[Picture] = list()
-        self.new_audios: List[Audio] = list()
+        self.new_medias: List[Media] = list()
+        self.new_audios: List[Media] = list()
         self.medias: List[Any] = [picture for note in notes for picture in note.medias]
 
     def parse_note_to_add(self, note: Note) -> None:
@@ -145,7 +145,7 @@ class NotesManager:
         for media in self.medias:
             media.load_data(Path(path_to_directory))
 
-    def get_media_to_add(self) -> List[Picture]:
+    def get_media_to_add(self) -> List[Media]:
         return self.new_medias
 
     def get_out_of_date_files(self) -> Set["File"]:

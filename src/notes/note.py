@@ -2,7 +2,7 @@ import enum
 from typing import List, Optional, Any
 
 from notes.fields import NoteField, FrontField, BackField
-from media import Picture, Audio
+from media import Media, Media
 from utils.patterns import (
     IMAGE_FILE_WIKILINK_REGEX,
     AUDIO_FILE_REGEX,
@@ -112,17 +112,17 @@ class Note:
     def find_medias(self):
         for match in IMAGE_FILE_WIKILINK_REGEX.finditer(self.original_note_text):
             full_file_name = f"{match.group('filename')}.{match.group('extension')}"
-            pic = Picture(filename=full_file_name)
+            pic = Media(filename=full_file_name)
             self.medias.append(pic)
         for match in IMAGE_FILE_MARKDOWN_REGEX.finditer(self.original_note_text):
             full_file_name = unquote(
                 f"{match.group('filename')}.{match.group('extension')}"
             )
-            pic = Picture(filename=full_file_name)
+            pic = Media(filename=full_file_name)
             self.medias.append(pic)
         for match in AUDIO_FILE_REGEX.finditer(self.original_note_text):
             full_file_name = f"{match.group('filename')}.{match.group('extension')}"
-            audio = Audio(filename=full_file_name)
+            audio = Media(filename=full_file_name)
             self.medias.append(audio)
 
     def set_state(self, state):

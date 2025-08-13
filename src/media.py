@@ -14,12 +14,12 @@ class MediaState(enum.Enum):
     NEW = enum.auto()
 
 
-class Picture:
+class Media:
     data: str | None
     filename: str
     state: MediaState
 
-    def __init__(self, filename):
+    def __init__(self, filename: str):
         self.filename = filename
         self.state = MediaState.UNKNOWN
         self.data = None
@@ -27,27 +27,7 @@ class Picture:
     def to_anki_dict(self):
         return {"filename": self.filename, "data": self.data}
 
-    def set_state(self, state):
-        self.state = state
-
-    def load_data(self, dir: Path):
-        self.data = file_encode(dir / self.filename)
-
-
-class Audio:
-    data: str | None
-    filename: str
-    state: MediaState
-
-    def __init__(self, filename):
-        self.filename = filename
-        self.state = MediaState.UNKNOWN
-        self.data = None
-
-    def to_anki_dict(self):
-        return {"filename": self.filename, "data": self.data}
-
-    def set_state(self, state):
+    def set_state(self, state: MediaState):
         self.state = state
 
     def load_data(self, dir: Path):
