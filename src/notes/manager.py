@@ -1,8 +1,7 @@
 from pathlib import Path
 from typing import List, Set, Dict, Tuple, Any, Union
 
-from files import File
-from media import MediaState, Media, Media
+from media import MediaState, Media
 from notes.note import Note, State
 
 import logging

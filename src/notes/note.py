@@ -1,8 +1,8 @@
 import enum
-from typing import List, Optional, Any
+from typing import List, Any
 
 from notes.fields import NoteField, FrontField, BackField
-from media import Media, Media
+from media import Media
 from utils.patterns import (
     IMAGE_FILE_WIKILINK_REGEX,
     AUDIO_FILE_REGEX,
@@ -18,8 +18,6 @@ class State(enum.Enum):
     NEW = enum.auto()
     MARKED_FOR_DELETION = enum.auto()
 
-
-# interface of Field using Protocol
 
 
 class DuplicateScopeOptions:
