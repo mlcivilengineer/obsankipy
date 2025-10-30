@@ -4,7 +4,7 @@ from typing import List
 from anki.manager import (
     AnkiManager,
 )
-from config_parser import NewConfig
+from pydantic_models import NewConfig
 from notes.manager import set_new_ids
 from notes.note import NoteType
 from utils.helpers import erase_note_ids_in_the_files

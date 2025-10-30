@@ -111,8 +111,8 @@ Create a `.obsankipy` directory inside your vault with a `config.yaml` file. The
 
 ```yaml
 vault:
-  dir_path: ./examples/vault
-  medias_dir_path: ./examples/vault/Medias
+  dir_path: .. # relative to the configuration file location
+  medias_dir_path: ../Medias
   exclude_dotted_dirs_from_scan: true  # Excludes directories starting with '.'
   exclude_dirs_from_scan:              # Custom directories to exclude
     - Templater
@@ -146,8 +146,8 @@ globals:
 ### Configuration Options Explained
 
 #### Vault Section
-- `dir_path`: Path to your Obsidian vault
-- `medias_dir_path`: Path to media files (images, audio)
+- `dir_path`: Path to your Obsidian vault. If you decide to use relative paths, it will be relative to the config file path.
+- `medias_dir_path`: Path to media files (images, audio). If you decide to use relative paths, it will be relative to the config file path.
 - `exclude_dotted_dirs_from_scan`: Skip directories starting with '.'
 - `exclude_dirs_from_scan`: List of specific directories to skip
 - `file_patterns_to_exclude`: Unix patterns for file exclusion

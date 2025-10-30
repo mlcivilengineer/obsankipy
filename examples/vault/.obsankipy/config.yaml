@@ -1,7 +1,7 @@
-#hashes_cache_dir: ./examples/vault/.obsankipy
+#hashes_cache_dir: .
 vault:
-  dir_path: ./examples/vault
-  medias_dir_path: ./examples/vault/Medias
+  dir_path: .. # relative to the configuration file location
+  medias_dir_path: ../Medias
   exclude_dotted_dirs_from_scan: true # excludes directories that start with a dot
   exclude_dirs_from_scan:
     - Templater

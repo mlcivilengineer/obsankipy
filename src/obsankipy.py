@@ -25,7 +25,7 @@ from pathlib import Path
 
 import yaml
 
-from config_parser import NewConfig
+from pydantic_models import load_config
 from run import run
 from utils.helpers import setup_cli_parser, setup_root_logger
 
@@ -46,28 +46,7 @@ def main():
     logger.info(
         f"{'🔍' if args.debug else '📦'} Debug mode: {'enabled' if args.debug else 'disabled'}"
     )
-
-    try:
-        logger.info("📄 Loading configuration file...")
-        with open(
-            Path(args.config_path).expanduser().resolve(), "r", encoding="utf-8"
-        ) as f:
-            config = yaml.safe_load(f)
-        logger.info("✅ Configuration loaded successfully")
-
-        logger.info("🧪 Parsing and validating configuration...")
-        new_config = NewConfig(**config)
-        logger.info("✅ Configuration validation completed")
-
-    except FileNotFoundError:
-        logger.error("❌ Configuration file not found!")
-        raise
-    except yaml.YAMLError:
-        logger.error("❌ Invalid YAML syntax in configuration file!")
-        raise
-    except Exception:
-        logger.error("❗ Unexpected error while parsing configuration!")
-        raise
+    new_config = load_config(config_file=Path(args.config_path))
 
     logger.info("🚀 Starting synchronization process...")
     try:
